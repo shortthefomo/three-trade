@@ -313,7 +313,7 @@ export default {
 
 h1 {
     font-family: "Minecraft";
-    font-size: 8em;
+    font-size: 7em;
     background-image: url("https://media.istockphoto.com/id/1356593931/vector/pixel-art-starry-seamless-background-night-sky-in-8-bit-style.jpg?s=612x612&w=0&k=20&c=2XLKJXACSfqoayBwN03t-PTElY52pkjNtV1cTvYHMi4=");
     color: #fff;
     color: transparent;
