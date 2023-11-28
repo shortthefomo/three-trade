@@ -7,7 +7,7 @@
         </div>
         <div class="row mb-2">
             <div class="col">
-                <label>Book Rows</label>
+                <label>Book Rows </label>
                 <select v-model="items">
                     <option v-for="option in options" :value="option.value">
                         {{ option.text }}
@@ -17,7 +17,7 @@
         </div>
         <div class="row mb-2">
             <div class="col">
-                <label>Layout Columns</label>
+                <label>Layout Columns </label>
                 <select v-model="col">
                     <option v-for="option in cols" :value="option.value">
                         {{ option.text }}
