@@ -10,7 +10,7 @@
     </div> -->
 
     <!-- <h5>{{ exchange.base }}<span>{{(exchange.base_issuer !== undefined ? ':' + exchange.base_issuer : '')}}</span> - {{ exchange.quote}}<span>{{ (exchange.quote_issuer !== undefined ? ':' + exchange.quote_issuer : '' )}}</span></h5> -->
-    <!-- <h5>{{ exchange.base }}/{{ exchange.quote }} <span>{{exchange.name}}</span></h5> -->
+    <h5>{{exchange.name}}</h5>
     <div class="p-0 dark-background border border-3 fs-7">
         <div v-if="book.bids.length>0" class="p-2 mb-2 mt-2 container-fluid">
             <!-- <div class="asks mx-1 row" v-for="(row, index2) in book.asks.slice(book.asks.length - items, book.asks.length)"> -->
@@ -21,7 +21,7 @@
                 <div class="col address" v-if="addresses"><small>{{row['address']}}</small></div>
             </div>
         </div>
-        <h4 class="my-1 mx-1 fs-6 ms-4">{{format( midPrice())}} {{ exchange.base }}/{{ exchange.quote }} <span class="name">{{exchange.name}}</span></h4>
+        <h4 class="my-1 mx-1 fs-6 ms-4">{{format( midPrice())}} {{ exchange.base }}/{{ exchange.quote }}</h4>
         <div v-if="book.asks.length>0" class="p-2 mb-2 mt-2 container-fluid">
             <!-- <div class="bids mx-1 row" v-for="(row, index2) in book.bids.slice(0, items)"> -->
             <div class="bids mx-1 row" v-for="(row, index2) in book.bids">
