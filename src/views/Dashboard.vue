@@ -70,7 +70,40 @@ export default {
     },
     mounted() {
         console.log('Dashboard mounted')
-        const books = [{type: 'DEX',
+        const books = [{
+            type: 'DEX',
+            name: 'Bitstamp',
+            market: 'XRPUSD',
+            base: 'XRP',
+            quote: 'USD',
+            base_issuer: undefined,
+            quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
+        }, {
+            type: 'DEX',
+            name: 'Gatehub',
+            market: 'XRPUSD',
+            base: 'XRP',
+            quote: 'USD',
+            base_issuer: undefined,
+            quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+        }, {
+            type: 'DEX',
+            name: 'Bitstamp',
+            market: 'XRPEUR',
+            base: 'XRP',
+            quote: 'EUR',
+            base_issuer: undefined,
+            quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
+        }, {
+            type: 'DEX',
+            name: 'Gatehub',
+            market: 'XRPEUR',
+            base: 'XRP',
+            quote: 'EUR',
+            base_issuer: undefined,
+            quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+        }, {
+            type: 'DEX',
             name: 'Bitstamp',
             market: 'XRPBTC',
             base: 'XRP',
@@ -85,38 +118,6 @@ export default {
             quote: 'BTC',
             base_issuer: undefined,
             quote_issuer: 'rchGBxcD1A1C2tdxF6papQYZ8kjRKMYcL'
-        }, {
-            type: 'DEX',
-            name: 'Bitstamp',
-            market: 'XRPUSD',
-            base: 'XRP',
-            quote: 'USD',
-            base_issuer: undefined,
-            quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
-        }, {
-            type: 'DEX',
-            name: 'Gatehub',
-            market: 'XRPUSD',
-            base: 'XRP',
-            quote: 'USD',
-            base_issuer: undefined,
-            quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
-        }, {
-            type: 'DEX',
-            name: 'Bitstamp',
-            market: 'XRPEUR',
-            base: 'XRP',
-            quote: 'EUR',
-            base_issuer: undefined,
-            quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
-        }, {
-            type: 'DEX',
-            name: 'Gatehub',
-            market: 'XRPEUR',
-            base: 'XRP',
-            quote: 'EUR',
-            base_issuer: undefined,
-            quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
         }, {
             type: 'DEX',
             name: 'Gatehub-Bitstamp',
