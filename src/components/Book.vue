@@ -18,7 +18,7 @@
                 <span class="depth" :style="'transform:scale3d(' + ask_depth(index2) + ', 1, 1) ;'"> </span>
                 <div class="col text-start">{{format(row['limit_price'])}} {{exchange.quote}}</div>
                 <div class="col text-start">{{row['amount']}}</div>
-                <div class="col address" v-if="addresses"><small><a :href="`https://explorer.panicbot.xyz/${row['address']}/offers?network=mainnet`">{{row['address']}}</a></small></div>
+                <div class="col address" v-if="addresses"><small><a :href="`https://explorer.panicbot.xyz/${row['address']}/offers?network=mainnet`" target="_blank">{{row['address']}}</a></small></div>
             </div>
         </div>
         <h4 class="my-1 mx-1 fs-6 ms-4">{{format( midPrice())}} {{ exchange.base }}/{{ exchange.quote }}</h4>
@@ -28,7 +28,7 @@
                 <span class="depth" :style="'transform:scale3d(' + bid_depth(index2) + ', 1, 1) ;'"> </span>
                 <div class="col text-start">{{format(row['limit_price'])}} {{exchange.base}}</div>
                 <div class="col text-start">{{row['amount']}}</div>
-                <div class="col address" v-if="addresses"><small><a :href="`https://explorer.panicbot.xyz/${row['address']}/offers?network=mainnet`">{{row['address']}}</a></small></div>
+                <div class="col address" v-if="addresses"><small><a :href="`https://explorer.panicbot.xyz/${row['address']}/offers?network=mainnet`" target="_blank">{{row['address']}}</a></small></div>
             </div>
         </div>
     </div>
