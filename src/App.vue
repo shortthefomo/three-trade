@@ -96,7 +96,7 @@ export default {
         --menu-bar-color: #753ee2;
         --first-color-light: #AFA5D9;
         --white-color: #F7F6FB;
-        --body-font: 'Nunito', sans-serif;
+        --body-font: 'Source Code Pro', monospace !important;
         --normal-font-size: 1rem;
         --z-fixed: 100;
     }
