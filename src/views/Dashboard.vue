@@ -91,9 +91,17 @@ export default {
             name: 'Gatehub',
             market: 'XRPUSDT',
             base: 'XRP',
-            quote: 'USDT',
+            quote: '5553445400000000000000000000000000000000',
             base_issuer: undefined,
             quote_issuer: 'rcvxE9PS9YBwxtGg1qNeewV6ZB3wGubZq'
+        }, {
+            type: 'DEX',
+            name: 'Gatehub',
+            market: 'XRPUSDT',
+            base: 'XRP',
+            quote: '5553444300000000000000000000000000000000',
+            base_issuer: undefined,
+            quote_issuer: 'rcEGREd8NmkKRE8GE424sksyt1tJVFZwu'
         }, {
             type: 'DEX',
             name: 'Gatehub',

@@ -16,17 +16,17 @@
             <!-- <div class="asks mx-1 row" v-for="(row, index2) in book.asks.slice(book.asks.length - items, book.asks.length)"> -->
             <div class="asks mx-1 row" v-for="(row, index2) in book.asks">
                 <span class="depth" :style="'transform:scale3d(' + ask_depth(index2) + ', 1, 1) ;'"> </span>
-                <div class="col text-start">{{format(row['limit_price'])}} {{exchange.quote}}</div>
+                <div class="col text-start">{{format(row['limit_price'])}} {{currencyHexToUTF8(exchange.quote)}}</div>
                 <div class="col text-start">{{row['amount']}}</div>
                 <div class="col address" v-if="addresses"><small><a :href="`https://explorer.panicbot.xyz/${row['address']}/offers?network=mainnet`" target="_blank">{{row['address']}}</a></small></div>
             </div>
         </div>
-        <h4 class="my-1 mx-1 fs-6 ms-4">{{format( midPrice())}} {{ exchange.base }}/{{ exchange.quote }}</h4>
+        <h4 class="my-1 mx-1 fs-6 ms-4">{{format( midPrice())}} {{ currencyHexToUTF8(exchange.base) }}/{{ currencyHexToUTF8(exchange.quote) }}</h4>
         <div v-if="book.asks.length>0" class="p-2 mb-2 mt-2 container-fluid">
             <!-- <div class="bids mx-1 row" v-for="(row, index2) in book.bids.slice(0, items)"> -->
             <div class="bids mx-1 row" v-for="(row, index2) in book.bids">
                 <span class="depth" :style="'transform:scale3d(' + bid_depth(index2) + ', 1, 1) ;'"> </span>
-                <div class="col text-start">{{format(row['limit_price'])}} {{exchange.base}}</div>
+                <div class="col text-start">{{format(row['limit_price'])}} {{currencyHexToUTF8(exchange.base)}}</div>
                 <div class="col text-start">{{row['amount']}}</div>
                 <div class="col address" v-if="addresses"><small><a :href="`https://explorer.panicbot.xyz/${row['address']}/offers?network=mainnet`" target="_blank">{{row['address']}}</a></small></div>
             </div>
@@ -34,9 +34,9 @@
     </div>
 
     <div class="info mx-1 p-2 pt-4 border border-1 fs-8">
-        <span v-if="book.asks.length>0 && book.bids.length>0">spread: {{(spread())}} {{exchange.quote}} : {{ format(spreadPercent()) }} % </span><br/>
-        <span v-if="book.asks.length>0"><span class="color-success">asks: {{numeralFormat(asks(), '0,0[.]0')}} {{exchange.base}}</span> </span><br/>
-        <span v-if="book.bids.length>0"><span class="color-danger">bids: {{numeralFormat(bids(), '0,0[.]0')}} {{exchange.base}}</span> </span><br/>
+        <span v-if="book.asks.length>0 && book.bids.length>0">spread: {{(spread())}} {{currencyHexToUTF8(exchange.quote)}} : {{ format(spreadPercent()) }} % </span><br/>
+        <span v-if="book.asks.length>0"><span class="color-success">asks: {{numeralFormat(asks(), '0,0[.]0')}} {{currencyHexToUTF8(exchange.base)}}</span> </span><br/>
+        <span v-if="book.bids.length>0"><span class="color-danger">bids: {{numeralFormat(bids(), '0,0[.]0')}} {{currencyHexToUTF8(exchange.base)}}</span> </span><br/>
         <!-- <h6><span>asks: {{exchange.book.asks.length}}</span></h6>
         <h6><span>bids: {{exchange.book.bids.length}}</span></h6> -->
     </div>
@@ -166,6 +166,22 @@ export default {
             }
             return total
         },
+        currencyHexToUTF8(code) {
+            if (code.length === 3)
+                return code
+            let decoded = new TextDecoder().decode(this.hexToBytes(code))
+            let padNull = decoded.length
+            while (decoded.charAt(padNull - 1) === '\0')
+                padNull--
+            return decoded.slice(0, padNull)
+        },
+        hexToBytes(hex) {
+            let bytes = new Uint8Array(hex.length / 2)
+            for (let i = 0; i !== bytes.length; i++) {
+                bytes[i] = parseInt(hex.substr(i * 2, 2), 16)
+            }
+            return bytes
+        }
     }
 }
 </script>
