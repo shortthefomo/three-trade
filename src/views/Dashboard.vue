@@ -128,18 +128,26 @@ export default {
             quote_issuer: 'rchGBxcD1A1C2tdxF6papQYZ8kjRKMYcL'
         }, {
             type: 'DEX',
-            name: 'Gatehub-Bitstamp',
-            market: 'USDUSD',
-            base: 'USD',
-            quote: 'USD',
-            base_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq',
-            quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
-        }, {
-            type: 'DEX',
             name: 'Bitstamp-Gatehub',
             market: 'USDUSD',
             base: 'USD',
             quote: 'USD',
+            base_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
+            quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+        }, {
+            type: 'DEX',
+            name: 'Gatehub-Gatehub',
+            market: 'USDEUR',
+            base: 'USD',
+            quote: 'EUR',
+            base_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq',
+            quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+        }, {
+            type: 'DEX',
+            name: 'Bitstamp-Gatehub',
+            market: 'USDEUR',
+            base: 'USD',
+            quote: 'EUR',
             base_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
             quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
         }]
