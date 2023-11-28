@@ -13,6 +13,10 @@
                         {{ option.text }}
                     </option>
                 </select>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
                 <label>Layout Columns</label>
                 <select v-model="col">
                     <option v-for="option in cols" :value="option.value">
