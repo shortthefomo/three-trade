@@ -38,7 +38,7 @@
             <span v-for="(path, index) in paths">
                 <span v-if="(typeof path.source_amount === 'object')"> {{ path.source_amount.value }} {{ currencyHexToUTF8(path.source_amount.currency) }} </span>
                 <span v-else> {{ path.source_amount / 1_000_000}} XRP </span><br/>
-            </span><br/>
+            </span>
             <hr>
         </div>
 
