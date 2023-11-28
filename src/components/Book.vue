@@ -34,7 +34,15 @@
     </div>
 
     <div class="info mx-1 p-2 pt-4 border border-1 fs-8">
-        <span v-if="getFX(exchange.quote, exchange.base) !== undefined">FX: {{getFX(exchange.quote, exchange.base)}}</span>
+        <div v-if="paths !== undefined">
+            <span v-for="(path, index) in paths">
+                <span v-if="(typeof path.source_amount === 'object')"> {{ path.source_amount.value }} {{ currencyHexToUTF8(path.source_amount.currency) }} </span>
+                <span v-else> {{ path.source_amount / 1_000_000}} XRP </span><br/>
+            </span><br/>
+            <hr>
+        </div>
+
+        <span v-if="getFX(exchange.quote, exchange.base) !== undefined">FX: {{getFX(exchange.quote, exchange.base)}} {{ exchange.base }}</span>
         <span v-else-if="getOracle(exchange.quote, exchange.base) !== undefined">Oracle: {{getOracle(exchange.quote, exchange.base)}}</span><br/>
         <span v-if="book.asks.length>0 && book.bids.length>0">spread: {{(spread())}} {{currencyHexToUTF8(exchange.quote)}} : {{ format(spreadPercent()) }} % </span><br/>
         <span v-if="book.asks.length>0"><span class="color-success">asks: {{numeralFormat(asks(), '0,0[.]0')}} {{currencyHexToUTF8(exchange.base)}}</span> </span><br/>
@@ -55,6 +63,7 @@ export default {
     props: ['exchange_key', 'items', 'col', 'addresses'],
     data() {
         return {
+            paths: undefined,
             debouncedBook: null,
             bookSkipCount: 0,
             book: {
@@ -91,6 +100,7 @@ export default {
         console.log('mounted.... dep', this.exchange_key)
         this.connectWebsocket()
         this.forex()
+        this.pathing()
     },
     computed: {
         exchange() {
@@ -257,6 +267,31 @@ export default {
             }
             return undefined
         },
+        async pathing() {
+            const self = this
+            const client = this.$store.getters.getClient
+            const account = await client.send({
+                id: this.exchange_key,
+                command: 'path_find',
+                subcommand: 'create',
+                source_account: 'rThREeXrp54XTQueDowPV1RxmkEAGUmg8',
+                destination_account: 'rThREeXrp54XTQueDowPV1RxmkEAGUmg8',
+                destination_amount: (this.exchange.quote === 'XRP') ? '1000000': {
+                    value: '1',
+                    currency: this.exchange.quote,
+                    issuer: this.exchange.quote_issuer
+                }
+            })
+            console.log('accccc', account)
+            client.on('path', (path) => {
+                if (self.exchange_key === path.id) {
+                    // console.log('curr', self.currencyHexToUTF8(self.exchange.quote))
+
+                    self.paths = path.alternatives
+                    // console.log('path xxx',  self.paths)
+                }
+            })
+        }
     }
 }
 </script>
