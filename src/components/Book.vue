@@ -276,6 +276,7 @@ export default {
     transform-origin: left;
     top: 0;
     bottom: 0;
+    z-index: 0;
 }
 
 .bids .depth {
@@ -284,14 +285,17 @@ export default {
     transform-origin: left;
     top: 0;
     bottom: 0;
+    z-index: 0;
 }
 .asks a {
     text-decoration: none;
     color: #00e56a;
+    z-index: 1;
 }
 .bids a {
     text-decoration: none;
     color: #FF1A8B;
+    z-index: 1;
 }
 .asks .col , .asks .col-4 {
     color: #00e56a;
