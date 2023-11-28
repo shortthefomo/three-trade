@@ -306,6 +306,7 @@ export default {
 .bids .address, .asks .address {
     width: 325px;
     text-align: right;
+    z-index: 1;
 }
 
 .table-success {
