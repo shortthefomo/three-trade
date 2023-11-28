@@ -194,13 +194,19 @@ export default {
     top: 0;
     bottom: 0;
 }
-
+.asks a {
+    text-decoration: none;
+    color: #00e56a;
+}
+.bids a {
+    text-decoration: none;
+    color: #FF1A8B;
+}
 .asks .col , .asks .col-4 {
     color: #00e56a;
 }
 .bids .col, .bids .col-4 {
     color: #FF1A8B;
-    
 }
 .bids .address, .asks .address {
     width: 325px;
