@@ -34,6 +34,8 @@
     </div>
 
     <div class="info mx-1 p-2 pt-4 border border-1 fs-8">
+        <span v-if="getFX(exchange.quote, exchange.base) !== undefined">FX: {{getFX(exchange.quote, exchange.base)}}</span>
+        <span v-else-if="getOracle(exchange.quote, exchange.base) !== undefined">Oracle: {{getOracle(exchange.quote, exchange.base)}}</span><br/>
         <span v-if="book.asks.length>0 && book.bids.length>0">spread: {{(spread())}} {{currencyHexToUTF8(exchange.quote)}} : {{ format(spreadPercent()) }} % </span><br/>
         <span v-if="book.asks.length>0"><span class="color-success">asks: {{numeralFormat(asks(), '0,0[.]0')}} {{currencyHexToUTF8(exchange.base)}}</span> </span><br/>
         <span v-if="book.bids.length>0"><span class="color-danger">bids: {{numeralFormat(bids(), '0,0[.]0')}} {{currencyHexToUTF8(exchange.base)}}</span> </span><br/>
@@ -58,7 +60,11 @@ export default {
             book: {
                 bids: [],
                 asks: []
-            }
+            },
+            fx: [],
+            socketFX: null,
+            oracle: [],
+            socket: null
         }
     },
     created() {
@@ -83,6 +89,8 @@ export default {
     },
     mounted() {
         console.log('mounted.... dep', this.exchange_key)
+        this.connectWebsocket()
+        this.forex()
     },
     computed: {
         exchange() {
@@ -181,7 +189,74 @@ export default {
                 bytes[i] = parseInt(hex.substr(i * 2, 2), 16)
             }
             return bytes
-        }
+        },
+        forex() {
+            const self = this
+            this.socketFX = new WebSocket('wss://three-forex.panicbot.xyz')
+            this.socketFX.onmessage = function (message) {
+                const data = JSON.parse(message.data)
+                if ('rates' in data) {
+                    self.fx = data.rates
+                    // console.log(self.fx)
+                }
+            }
+            // this.socketFX.onclose = function (event) {
+            //     console.log('socket close', event)
+            //     setTimeout(() => {
+            //         self.forex()
+            //     }, 5000)
+            // }
+        },
+        getFX(quote, base) {
+            // console.log('qq', quote, base)
+            for (let index = 0; index < this.fx.length; index++) {
+                const element = this.fx[index]
+                // console.log('element.source', element.source)
+                if (element.source == base&& element.target == quote ) {
+                    return element.rate
+                }
+            }
+            return undefined
+        },
+        connectWebsocket() {
+            const self = this
+            this.socket = new WebSocket('wss://three-oracle.panicbot.xyz')
+            this.socket.onmessage = function (message) {
+                
+                // self.oracle = []
+                const data = JSON.parse(message.data)
+                if ('oracle' in data) {
+                    Object.entries(data.oracle).forEach(([key, value]) => {
+                        if (key === 'USD') {
+                            //self.usd = value.Price
+                        }
+                        if (key !== 'STATS') {
+                            // console.log(value)
+                            self.oracle[value.Token] = value.Price
+                        }
+                        else {
+                            // self.stats = value
+                        }
+                    })
+                }
+            }
+            this.socket.onerror = function (error) {
+                console.log('error', error)
+            }
+            // this.socket.onclose = function (event) {
+            //     console.log('socket close', event)
+            //     setTimeout(() => {
+            //         self.connectWebsocket()
+            //     }, 5000)
+            // }
+        },
+        getOracle(quote, base) {
+            // console.log('qq', quote, base)
+            if (this.oracle[this.currencyHexToUTF8(quote)] !== undefined) {
+                return this.oracle[this.currencyHexToUTF8(quote)]
+            }
+            return undefined
+        },
     }
 }
 </script>
