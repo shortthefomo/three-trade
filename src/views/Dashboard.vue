@@ -88,12 +88,12 @@ export default {
             quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
         }, {
             type: 'DEX',
-            name: 'Bitstamp',
-            market: 'XRPEUR',
+            name: 'Gatehub',
+            market: 'XRPUSDT',
             base: 'XRP',
-            quote: 'EUR',
+            quote: 'USDT',
             base_issuer: undefined,
-            quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
+            quote_issuer: 'rcvxE9PS9YBwxtGg1qNeewV6ZB3wGubZq'
         }, {
             type: 'DEX',
             name: 'Gatehub',
