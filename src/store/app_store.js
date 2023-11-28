@@ -1,0 +1,156 @@
+'use strict'
+import { XrplClient } from 'xrpl-client'
+
+ /* eslint-disable */ 
+export const AppStore = {
+    state: () => ({
+        version: '0.0.1',
+        xumm: {
+            tokenData: {
+                nodetype: 'MAINNET'
+            }
+        },
+        client: null,
+        servers: [],
+        account: '',
+        signed_in: false,
+        books: {}
+    }),
+    actions: {
+        storageInit({commit}, force) {
+            commit('INIT', force)
+        },
+        clearStorage({commit}, force) {
+            commit('CLEAR', force)
+        },
+        xummTokenData({commit}, data) {
+            commit('TOKEN_DATA', data)
+        },
+        clientConnect({commit}, force) {
+            commit('CONNECT', force)
+        },
+        setClientServers({commit}, servers) {
+            commit('SERVERS', servers)
+        },
+        setAccount({commit}, account) {
+            commit('ACCOUNT', account)
+        },
+        setSignIn({commit}, signed_in) {
+            commit('SIGNIN', signed_in)
+        },
+        listenBook({commit}, data) {
+            commit('BOOKS', data)
+        },
+        updateBook({commit}, data) {
+            commit('BOOK_UPDATE', data)
+        },
+    },
+    mutations: {
+        INIT(state, force = false) {
+            if (force === false) { return }
+            if (localStorage.getItem('account')) {
+                state.account = JSON.parse(localStorage.getItem('account'))
+                console.log('loaded from state', state.account)
+            }
+            if (localStorage.getItem('tokenData'))
+                state.xumm.tokenData = JSON.parse(localStorage.getItem('tokenData'))
+            if (localStorage.getItem('signed_in'))
+                state.signed_in = JSON.parse(localStorage.getItem('signed_in'))
+            console.log('state loaded from storage: ', state)
+        },
+        CLEAR(state, force = false) {
+            if (force === false) { return }
+            localStorage.clear()
+        },
+        TOKEN_DATA(state, data) {
+            state.xumm.tokenData = data
+            localStorage.setItem('tokenData', JSON.stringify(data))
+        },
+        SIGNIN(state, signed_in) {
+            console.log('signed in set in state', signed_in)
+            state.signed_in = signed_in
+            localStorage.setItem('signed_in', JSON.stringify(signed_in))
+        },
+        CONNECT(state, force) {
+            if (state.servers.length < 0) { return }
+            if (force || state.client === null) {
+                state.client = new XrplClient(state.servers)
+            }
+        },
+        SERVERS(state, servers) {
+            state.servers = servers
+            if (state.client !== null) {
+                state.client.close()
+            }
+            state.client = new XrplClient(state.servers)
+        },
+        ACCOUNT(state, account) {
+            state.account = account
+            localStorage.setItem('account', JSON.stringify(account))
+        },
+        BOOKS(state, data) {
+            const key = data.base + data.base_issuer + data.quote + data.quote_issuer
+            if (state.books[key] === undefined) {
+                state.books[key] = {
+                    name: data.name,
+                    type: data.type,
+                    market: data.market,
+                    base: data.base,
+                    quote: data.quote,
+                    base_issuer: data.base_issuer,
+                    quote_issuer: data.quote_issuer,
+                    book: {
+                        bids: [],
+                        asks: []
+                    }
+                }
+            } 
+            // localStorage.setItem('books', JSON.stringify(books))
+        },
+        BOOK_UPDATE(state, data) {
+            if (state.books[data.key] !== undefined) {
+                const asks = Object.values(data.book.asks).sort((a,b) => (a.limit_price*1 > b.limit_price*1) ? 1 : ((b.limit_price*1 > a.limit_price*1) ? -1 : 0))
+                const bids = Object.values(data.book.bids).sort((a,b) => (a.limit_price*1 < b.limit_price*1) ? 1 : ((b.limit_price*1 < a.limit_price*1) ? -1 : 0))
+
+                const values = {
+                    bids: bids,
+                    asks: asks.reverse()
+                }
+
+                state.books[data.key].book = values
+            }
+        }
+    },
+    getters: {
+        getVersion: state => {
+            return state.version
+        },
+        getXummTokenData: state => {
+            return state.xumm.tokenData
+        },
+        getClient: state => {
+            return state.client
+        },
+        getClientServers: state => {
+            return state.servers
+        },
+        getAccount: state => {
+            return state.account
+        },
+        getSignedIn: state => {
+            return state.signed_in
+        },
+        getExchangeBook: (state) => (key) => {
+            if (key in state.books) {
+                return state.books[key]
+            }
+            return {
+                bids: [],
+                asks: []
+            }
+        },
+        getBooks: state => {
+            return state.books
+        }
+    }
+}
