@@ -33,22 +33,24 @@
         </div>
     </div>
 
-    <div class="info mx-1 p-2 pt-4 border border-1 fs-8">
-        <div v-if="paths !== undefined">
-            <span v-for="(path, index) in paths">
-                <span v-if="(typeof path.source_amount === 'object')"> {{ path.source_amount.destination_amount / 1_000_000 }} XRP = {{ format(pathing_mid) }}  {{ currencyHexToUTF8(exchange.quote) }}</span>
-                <span v-else> {{ path.source_amount / 1_000_000}} XRP = {{ format(pathing_mid) }} {{ currencyHexToUTF8(exchange.quote) }}</span><br/>
-            </span>
-            <hr>
-        </div>
-
-        <span v-if="getFX(exchange.quote, exchange.base) !== undefined">FX: {{getFX(exchange.quote, exchange.base)}} {{ exchange.base }}</span>
-        <span v-else-if="getOracle(exchange.quote, exchange.base) !== undefined">Oracle: {{getOracle(exchange.quote, exchange.base)}}</span><br/>
+    <div class="info mx-1 p-2 border border-1 fs-8">
+        <span v-if="getFX(exchange.quote, exchange.base) !== undefined">fx: {{getFX(exchange.quote, exchange.base)}} {{ exchange.base }}</span>
+        <span v-else-if="getOracle(exchange.quote, exchange.base) !== undefined">oracle: {{getOracle(exchange.quote, exchange.base)}}</span><br/>
         <span v-if="book.asks.length>0 && book.bids.length>0">spread: {{(spread())}} {{currencyHexToUTF8(exchange.quote)}} : {{ format(spreadPercent()) }} % </span><br/>
         <span v-if="book.asks.length>0"><span class="color-success">asks: {{numeralFormat(asks(), '0,0[.]0')}} {{currencyHexToUTF8(exchange.base)}}</span> </span><br/>
         <span v-if="book.bids.length>0"><span class="color-danger">bids: {{numeralFormat(bids(), '0,0[.]0')}} {{currencyHexToUTF8(exchange.base)}}</span> </span><br/>
         <!-- <h6><span>asks: {{exchange.book.asks.length}}</span></h6>
         <h6><span>bids: {{exchange.book.bids.length}}</span></h6> -->
+
+        <div v-if="$store.getters.getPath(exchange_key) !== undefined">
+            <hr>
+            <h6>paths</h6>
+            <span v-for="(path, index) in $store.getters.getPath(exchange_key)">
+                <!-- {{ path }} -->
+                <span v-if="(typeof path.source_amount === 'object')"> {{ format(path.destination_amount / 1_000_000) }} XRP = {{ format(path.source_amount.value )}} {{ currencyHexToUTF8(exchange.quote) }} quality: {{ (path.destination_amount / 1_000_000) / (path.source_amount.value)  }}</span>
+                <span v-else> reverse WTF now</span><br/>
+            </span>
+        </div>
     </div>
     
         
@@ -57,6 +59,7 @@
 <script>
 import { debounce } from 'lodash'
 import decimal from 'decimal.js'
+import { EventEmitter } from 'events'
 
 export default {
     name: 'Book',
@@ -74,8 +77,7 @@ export default {
             socketFX: null,
             oracle: [],
             socket: null,
-            isLoading: true,
-            pathing_mid: 0
+            isLoading: true
         }
     },
     created() {
@@ -102,6 +104,8 @@ export default {
         console.log('mounted.... dep', this.exchange_key)
         this.connectWebsocket()
         this.forex()
+
+        // EventEmitter.defaultMaxListeners = 128
         // this.pathing()
     },
     computed: {
@@ -273,10 +277,10 @@ export default {
             return undefined
         },
         async pathing() {
-            while (this.isLoading) {
+            if (this.isLoading) {
                 await this.pause()
+                return await this.pathing()
             }
-            this.pathing_mid = this.midPrice().toString()
             // if (this.exchange_key !== 'XRPundefinedBTCrvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B') { return }
             const self = this
             const cmd = {
@@ -287,7 +291,7 @@ export default {
                 destination_account: 'rThREeXrp54XTQueDowPV1RxmkEAGUmg8',
                 destination_amount: -1,
                 send_max: {
-                    value: this.pathing_mid,
+                    value: String(this.book.bids[0].limit_price),
                     currency: this.exchange.quote,
                     issuer: this.exchange.quote_issuer
                 }
@@ -299,14 +303,15 @@ export default {
             // if (result.result.alternatives.length > 0) {
             //     this.paths = result.result.alternatives
             // }
-            this.$store.getters.getClient.on('path', (path) => {
-                if (self.exchange_key === path.id) {
-                    console.log(self.currencyHexToUTF8(self.exchange.quote), path.id, path.alternatives)
+            // this.$store.getters.getClient.on('path', (path) => {
+            //     console.log(self.currencyHexToUTF8(self.exchange.quote), path.id, path.alternatives)
+            //     if (self.exchange_key === path.id) {
+            //         console.log(self.currencyHexToUTF8(self.exchange.quote), path.id, path.alternatives)
 
-                    self.paths = path.alternatives
-                    // console.log('path xxx',  self.paths)
-                }
-            })
+            //         self.paths = path.alternatives
+            //         // console.log('path xxx',  self.paths)
+            //     }
+            // })
         },
         async pause(milliseconds = 1000) {
             return new Promise(resolve =>  {

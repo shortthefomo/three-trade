@@ -1,5 +1,5 @@
 <template>
-    <div class="m-5 home">
+    <div class="m-1 home">
         <div class="row mb-2">
             <div class="col">
                 <h1>trade</h1>
@@ -69,6 +69,7 @@ export default {
         }
     },
     mounted() {
+        const self = this
         console.log('Dashboard mounted')
         const books = [{
             type: 'DEX',
@@ -171,6 +172,16 @@ export default {
 
         // const books = [{
         //     type: 'DEX',
+        //     name: 'Bitstamp-Gatehub',
+        //     market: 'USDEUR',
+        //     base: 'USD',
+        //     quote: 'EUR',
+        //     base_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
+        //     quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+        // }]
+
+        // const books = [{
+        //     type: 'DEX',
         //     name: 'Bitstamp',
         //     market: 'XRPUSD',
         //     base: 'XRP',
@@ -178,6 +189,7 @@ export default {
         //     base_issuer: undefined,
         //     quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
         // }]
+
         
         
         this.$store.dispatch('setAccount', 'rThREeXrp54XTQueDowPV1RxmkEAGUmg8')
@@ -194,7 +206,10 @@ export default {
             // console.log('event', event)
             this.monitor()
         })
-        
+        this.client.on('path', (path) => {
+            console.log('seeettt', path.id, path.alternatives)
+            self.$store.dispatch('updatePath', { key: path.id, paths: path.alternatives}) 
+        })
     },
     computed: {
         trade_books() {

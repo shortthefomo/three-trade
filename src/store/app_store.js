@@ -14,7 +14,8 @@ export const AppStore = {
         servers: [],
         account: '',
         signed_in: false,
-        books: {}
+        books: {},
+        paths: {}
     }),
     actions: {
         storageInit({commit}, force) {
@@ -44,6 +45,9 @@ export const AppStore = {
         updateBook({commit}, data) {
             commit('BOOK_UPDATE', data)
         },
+        updatePath({commit}, data) {
+            commit('PATH_UPDATE', data)
+        }
     },
     mutations: {
         INIT(state, force = false) {
@@ -119,6 +123,10 @@ export const AppStore = {
 
                 state.books[data.key].book = values
             }
+        },
+        PATH_UPDATE(state, data) {
+            // console.log('seeetttt', data.key)
+            state.paths[data.key] = data.paths
         }
     },
     getters: {
@@ -151,6 +159,14 @@ export const AppStore = {
         },
         getBooks: state => {
             return state.books
-        }
+        },
+        getPath: (state) => (key) => {
+            // console.log('ggggeeettt', key)
+            // console.log('ggggeeettt', state.paths[key])
+            if (key in state.paths) {
+                return state.paths[key]
+            }
+            return undefined
+        },
     }
 }
