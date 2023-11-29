@@ -150,7 +150,35 @@ export default {
             quote: 'EUR',
             base_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
             quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+        }, {
+            type: 'DEX',
+            name: 'xToadz',
+            market: 'XRPRIBBITS',
+            base: 'XRP',
+            quote: '5249424249545300000000000000000000000000',
+            base_issuer: undefined,
+            quote_issuer: 'rPmb5BPBAbE9jmNaFXNPH5kZEPDpRxaY77'
+        }, {
+            type: 'DEX',
+            name: 'X-Fox Club',
+            market: 'XRPFOX',
+            base: 'XRP',
+            quote: '464F580000000000000000000000000000000000',
+            base_issuer: undefined,
+            quote_issuer: 'rfox8eXfYYj476pLGmAr79sxcY6FsyfNHp'
         }]
+
+
+        // const books = [{
+        //     type: 'DEX',
+        //     name: 'Bitstamp',
+        //     market: 'XRPUSD',
+        //     base: 'XRP',
+        //     quote: 'USD',
+        //     base_issuer: undefined,
+        //     quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
+        // }]
+        
         
         this.$store.dispatch('setAccount', 'rThREeXrp54XTQueDowPV1RxmkEAGUmg8')
         for (let index = 0; index < books.length; index++) {

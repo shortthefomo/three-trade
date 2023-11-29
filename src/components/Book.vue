@@ -36,7 +36,7 @@
     <div class="info mx-1 p-2 pt-4 border border-1 fs-8">
         <div v-if="paths !== undefined">
             <span v-for="(path, index) in paths">
-                <span v-if="(typeof path.source_amount === 'object')"> {{ path.source_amount.value }} {{ currencyHexToUTF8(path.source_amount.currency) }} = {{ format(pathing_mid) }}  {{ currencyHexToUTF8(exchange.quote) }}</span>
+                <span v-if="(typeof path.source_amount === 'object')"> {{ path.source_amount.destination_amount / 1_000_000 }} XRP = {{ format(pathing_mid) }}  {{ currencyHexToUTF8(exchange.quote) }}</span>
                 <span v-else> {{ path.source_amount / 1_000_000}} XRP = {{ format(pathing_mid) }} {{ currencyHexToUTF8(exchange.quote) }}</span><br/>
             </span>
             <hr>
@@ -285,8 +285,9 @@ export default {
                 subcommand: 'create',
                 source_account: 'rThREeXrp54XTQueDowPV1RxmkEAGUmg8',
                 destination_account: 'rThREeXrp54XTQueDowPV1RxmkEAGUmg8',
-                destination_amount: {
-                    value: this.pathing_mid , // +this.midPrice(),
+                destination_amount: -1,
+                send_max: {
+                    value: this.pathing_mid,
                     currency: this.exchange.quote,
                     issuer: this.exchange.quote_issuer
                 }
@@ -295,9 +296,9 @@ export default {
             console.log('mid', this.midPrice().toString())
             const result = await this.$store.getters.getClient.send(cmd)
             console.log('path_find', result)
-            if (result.result.alternatives.length > 0) {
-                this.paths = result.result.alternatives
-            }
+            // if (result.result.alternatives.length > 0) {
+            //     this.paths = result.result.alternatives
+            // }
             this.$store.getters.getClient.on('path', (path) => {
                 if (self.exchange_key === path.id) {
                     console.log(self.currencyHexToUTF8(self.exchange.quote), path.id, path.alternatives)
