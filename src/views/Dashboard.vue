@@ -1,5 +1,5 @@
 <template>
-    <div class="m-1 home">
+    <div class="m-2 home">
         <div class="row mb-2">
             <div class="col">
                 <h1>trade</h1>
@@ -34,7 +34,7 @@
         
         <div class="row">
             <div v-for="(book, index) in trade_books" :class="'mb-5 ' + 'col-' + col">
-                <Book :exchange_key="book.base + book.base_issuer + book.quote + book.quote_issuer" :items="items" :col="col" :addresses="addresses"/>
+                <Book  :oracle="oracle" :fx="fx" :exchange_key="book.base + book.base_issuer + book.quote + book.quote_issuer" :items="items" :col="col" :addresses="addresses"/>
             </div>
         </div>
     </div>
@@ -65,7 +65,11 @@ export default {
                 { text: 1, value: 12 }
             ],
             col: 3,
-            client: undefined
+            client: undefined,
+            socketFX: null,
+            socket: null,
+            fx: [],
+            oracle: []
         }
     },
     mounted() {
@@ -188,6 +192,14 @@ export default {
         //     quote: 'USD',
         //     base_issuer: undefined,
         //     quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
+        // }, {
+        //     type: 'DEX',
+        //     name: 'Gatehub',
+        //     market: 'XRPUSD',
+        //     base: 'XRP',
+        //     quote: 'USD',
+        //     base_issuer: undefined,
+        //     quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
         // }]
 
         
@@ -206,10 +218,9 @@ export default {
             // console.log('event', event)
             this.monitor()
         })
-        this.client.on('path', (path) => {
-            console.log('seeettt', path.id, path.alternatives)
-            self.$store.dispatch('updatePath', { key: path.id, paths: path.alternatives}) 
-        })
+
+        this.connectWebsocket()
+        this.forex()
     },
     computed: {
         trade_books() {
@@ -217,6 +228,45 @@ export default {
         }
     },
     methods: {
+        connectWebsocket() {
+            const self = this
+            this.socket = new WebSocket('wss://three-oracle.panicbot.xyz')
+            this.socket.onmessage = function (message) {
+                
+                // self.oracle = []
+                const data = JSON.parse(message.data)
+                if ('oracle' in data) {
+                    Object.entries(data.oracle).forEach(([key, value]) => {
+                        if (key === 'USD') {
+                            //self.usd = value.Price
+                        }
+                        if (key !== 'STATS') {
+                            // console.log(value)
+                            self.oracle[value.Token] = value.Price
+                        }
+                        else {
+                            // self.stats = value
+                        }
+                    })
+                }
+            }
+            this.socket.onclose = function (close) {
+                self.oracle = []
+            }
+        },
+        forex() {
+            const self = this
+            this.socketFX = new WebSocket('wss://three-forex.panicbot.xyz')
+            this.socketFX.onmessage = function (message) {
+                const data = JSON.parse(message.data)
+                if ('rates' in data) {
+                    self.fx = data.rates
+                }
+            }
+            this.socketFX.onclose = function (close) {
+                self.fx = []
+            }
+        },
         showAddresses() {
             console.log('show_addresses clicked...')
             this.addresses = !this.addresses

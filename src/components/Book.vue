@@ -42,15 +42,8 @@
         <!-- <h6><span>asks: {{exchange.book.asks.length}}</span></h6>
         <h6><span>bids: {{exchange.book.bids.length}}</span></h6> -->
 
-        <div v-if="$store.getters.getPath(exchange_key) !== undefined">
-            <hr>
-            <h6>paths</h6>
-            <span v-for="(path, index) in $store.getters.getPath(exchange_key)">
-                <!-- {{ path }} -->
-                <span v-if="(typeof path.source_amount === 'object')"> {{ format(path.destination_amount / 1_000_000) }} XRP = {{ format(path.source_amount.value )}} {{ currencyHexToUTF8(exchange.quote) }} quality: {{ (path.destination_amount / 1_000_000) / (path.source_amount.value)  }}</span>
-                <span v-else> reverse WTF now</span><br/>
-            </span>
-        </div>
+        <button v-on:click="showPath" type="button" class="btn btn-purple me-1 mt-3 fs-8">{{ pathing ? 'hide':'show' }} paths</button>
+        <Path :exchange_key="exchange_key" :exchange="exchange" :loaded="isLoading" :active="pathing"/>
     </div>
     
         
@@ -59,25 +52,25 @@
 <script>
 import { debounce } from 'lodash'
 import decimal from 'decimal.js'
-import { EventEmitter } from 'events'
+import Path from './Path.vue'
 
 export default {
     name: 'Book',
-    props: ['exchange_key', 'items', 'col', 'addresses'],
+    props: ['exchange_key', 'items', 'col', 'addresses', 'fx', 'oracle'],
+    components: {
+        Path
+    },
     data() {
         return {
-            paths: undefined,
+            client: null,
             debouncedBook: null,
             bookSkipCount: 0,
             book: {
                 bids: [],
                 asks: []
             },
-            fx: [],
-            socketFX: null,
-            oracle: [],
-            socket: null,
-            isLoading: true
+            isLoading: true,
+            pathing: false
         }
     },
     created() {
@@ -94,19 +87,15 @@ export default {
             this.book = result
             
         }, 100)
-        console.log('debouncedBook: ' + this.exchange_key)
+        // console.log('debouncedBook: ' + this.exchange_key)
     },
     beforeUnmount() {
         if (this.debouncedBook === null) { return }
         this.debouncedBook.cancel()
     },
     mounted() {
-        console.log('mounted.... dep', this.exchange_key)
-        this.connectWebsocket()
-        this.forex()
-
-        // EventEmitter.defaultMaxListeners = 128
-        // this.pathing()
+        // console.log('mounted.... dep', this.exchange_key)
+        
     },
     computed: {
         exchange() {
@@ -115,7 +104,12 @@ export default {
         offers() {
             // console.log('offers', this.$store.getters.getExchangeBook(this.exchange_key).book)
             return this.$store.getters.getExchangeBook(this.exchange_key).book
-        }
+        },
+        path() {
+            const xpath = this.$store.getters.getPath(this.exchange_key)
+            return xpath.path
+        },
+
     },
     watch: {
         offers(newValue) {
@@ -137,6 +131,9 @@ export default {
         },  
     },
     methods: {
+        showPath() {
+            this.pathing = !this.pathing
+        },
         spread() {
             if (this.book.asks.length == 0 || this.book.bids.length == 0) { return 0 }
             //return new decimal(this.book.asks[0].limit_price).toFixed(8)
@@ -209,23 +206,6 @@ export default {
             }
             return bytes
         },
-        forex() {
-            const self = this
-            this.socketFX = new WebSocket('wss://three-forex.panicbot.xyz')
-            this.socketFX.onmessage = function (message) {
-                const data = JSON.parse(message.data)
-                if ('rates' in data) {
-                    self.fx = data.rates
-                    // console.log(self.fx)
-                }
-            }
-            // this.socketFX.onclose = function (event) {
-            //     console.log('socket close', event)
-            //     setTimeout(() => {
-            //         self.forex()
-            //     }, 5000)
-            // }
-        },
         getFX(quote, base) {
             // console.log('qq', quote, base)
             for (let index = 0; index < this.fx.length; index++) {
@@ -237,81 +217,12 @@ export default {
             }
             return undefined
         },
-        connectWebsocket() {
-            const self = this
-            this.socket = new WebSocket('wss://three-oracle.panicbot.xyz')
-            this.socket.onmessage = function (message) {
-                
-                // self.oracle = []
-                const data = JSON.parse(message.data)
-                if ('oracle' in data) {
-                    Object.entries(data.oracle).forEach(([key, value]) => {
-                        if (key === 'USD') {
-                            //self.usd = value.Price
-                        }
-                        if (key !== 'STATS') {
-                            // console.log(value)
-                            self.oracle[value.Token] = value.Price
-                        }
-                        else {
-                            // self.stats = value
-                        }
-                    })
-                }
-            }
-            this.socket.onerror = function (error) {
-                console.log('error', error)
-            }
-            // this.socket.onclose = function (event) {
-            //     console.log('socket close', event)
-            //     setTimeout(() => {
-            //         self.connectWebsocket()
-            //     }, 5000)
-            // }
-        },
         getOracle(quote, base) {
             // console.log('qq', quote, base)
             if (this.oracle[this.currencyHexToUTF8(quote)] !== undefined) {
                 return this.oracle[this.currencyHexToUTF8(quote)]
             }
             return undefined
-        },
-        async pathing() {
-            if (this.isLoading) {
-                await this.pause()
-                return await this.pathing()
-            }
-            // if (this.exchange_key !== 'XRPundefinedBTCrvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B') { return }
-            const self = this
-            const cmd = {
-                id: this.exchange_key,
-                command: 'path_find',
-                subcommand: 'create',
-                source_account: 'rThREeXrp54XTQueDowPV1RxmkEAGUmg8',
-                destination_account: 'rThREeXrp54XTQueDowPV1RxmkEAGUmg8',
-                destination_amount: -1,
-                send_max: {
-                    value: String(this.book.bids[0].limit_price),
-                    currency: this.exchange.quote,
-                    issuer: this.exchange.quote_issuer
-                }
-            }
-            console.log('cmd', cmd)
-            console.log('mid', this.midPrice().toString())
-            const result = await this.$store.getters.getClient.send(cmd)
-            console.log('path_find', result)
-            // if (result.result.alternatives.length > 0) {
-            //     this.paths = result.result.alternatives
-            // }
-            // this.$store.getters.getClient.on('path', (path) => {
-            //     console.log(self.currencyHexToUTF8(self.exchange.quote), path.id, path.alternatives)
-            //     if (self.exchange_key === path.id) {
-            //         console.log(self.currencyHexToUTF8(self.exchange.quote), path.id, path.alternatives)
-
-            //         self.paths = path.alternatives
-            //         // console.log('path xxx',  self.paths)
-            //     }
-            // })
         },
         async pause(milliseconds = 1000) {
             return new Promise(resolve =>  {

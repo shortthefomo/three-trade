@@ -126,7 +126,7 @@ export const AppStore = {
         },
         PATH_UPDATE(state, data) {
             // console.log('seeetttt', data.key)
-            state.paths[data.key] = data.paths
+            state.paths[data.key] = data
         }
     },
     getters: {
