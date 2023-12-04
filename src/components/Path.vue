@@ -91,6 +91,10 @@ export default {
             }
             console.log('cmd', cmd)
             const result = await this.client.send(cmd)
+            
+            console.log('path init', result)
+            this.$store.dispatch('updatePath', { key: result.id, path: result.result})
+
             this.client.on('path', (path) => {
                 if (self.current_address !== self.$store.getters.getAccount) {
                     console.log('switch pathing....')
