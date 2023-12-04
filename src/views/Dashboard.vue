@@ -37,6 +37,16 @@
                 <Book  :oracle="oracle" :fx="fx" :exchange_key="book.base + book.base_issuer + book.quote + book.quote_issuer" :items="items" :col="col" :addresses="addresses"/>
             </div>
         </div>
+
+        <div class="row mb-2">
+            <div class="col-6">
+                <div class="input-group mb-3">
+                    <label for="address" class="me-3 form-label">r-address</label>
+                    <input type="text" class="active form-control" id="address" v-model="address" placeholder="rThREeXrp54XTQueDowPV1RxmkEAGUmg8">
+                    <button v-on:click="updateAddress" type="button" class="btn btn-warning">update</button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -50,6 +60,7 @@ export default {
     },
     data() {
         return {
+            address: 'rThREeXrp54XTQueDowPV1RxmkEAGUmg8',
             addresses: false,
             options: [
                 { text: 'all', value: 0 },
@@ -204,7 +215,7 @@ export default {
 
         
         
-        this.$store.dispatch('setAccount', 'rThREeXrp54XTQueDowPV1RxmkEAGUmg8')
+        this.$store.dispatch('setAccount', this.address)
         for (let index = 0; index < books.length; index++) {
             const book = books[index]
             this.$store.dispatch('listenBook', book)    
@@ -228,6 +239,10 @@ export default {
         }
     },
     methods: {
+        updateAddress() {
+            console.log('updateAddress')
+            this.$store.dispatch('setAccount', this.address)
+        },
         connectWebsocket() {
             const self = this
             this.socket = new WebSocket('wss://three-oracle.panicbot.xyz')

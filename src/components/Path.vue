@@ -8,6 +8,7 @@
             <span v-if="(typeof alt.source_amount === 'object')">{{ numeralFormat(alt.source_amount.value, '0,0[.]0000000000') }} {{ currencyHexToUTF8(alt.source_amount.currency) }}</span>
             <span v-else>{{ numeralFormat(alt.source_amount/1_000_000,  '0,0[.]0000000000') }} XRP</span><br/>
         </span>
+        <span v-if="path.alternatives === undefined ||path.alternatives.length === 0 ">No path found</span>
     </div>
 </template>
 
@@ -20,7 +21,8 @@ export default {
     props: ['exchange_key', 'exchange', 'loaded', 'active'],
     data() {
         return {
-            client: null
+            client: null,
+            current_address: ''
         }
     },
     mounted() {
@@ -55,6 +57,7 @@ export default {
                 await this.pause()
                 return await this.pathing()
             }
+            this.current_address = this.$store.getters.getAccount
             // we need a new connection for each pathfind...
             if (this.client === null) {
                 this.client = new XrplClient(this.$store.getters.getClientServers)    
@@ -64,8 +67,8 @@ export default {
                 id: this.exchange_key,
                 command: 'path_find',
                 subcommand: 'create',
-                source_account: 'rThREeXrp54XTQueDowPV1RxmkEAGUmg8',
-                destination_account: 'rThREeXrp54XTQueDowPV1RxmkEAGUmg8',
+                source_account: this.$store.getters.getAccount,
+                destination_account: this.$store.getters.getAccount,
                 destination_amount: {
                     value: '1',  //String(this.book.bids[0].limit_price),
                     currency: this.exchange.quote,
@@ -75,6 +78,11 @@ export default {
             console.log('cmd', cmd)
             const result = await this.client.send(cmd)
             this.client.on('path', (path) => {
+                if (self.current_address !== self.$store.getters.getAccount) {
+                    console.log('switch pathing....')
+                    self.pathing()
+                    return
+                }
                 if ('alternatives' in path) {
                     self.$store.dispatch('updatePath', { key: path.id, path: path}) 
                 }
