@@ -129,6 +129,14 @@ export default {
         }, {
             type: 'DEX',
             name: 'Bitstamp',
+            market: 'XRPEUR',
+            base: 'XRP',
+            quote: 'EUR',
+            base_issuer: undefined,
+            quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
+        }, {
+            type: 'DEX',
+            name: 'Bitstamp',
             market: 'XRPBTC',
             base: 'XRP',
             quote: 'BTC',
