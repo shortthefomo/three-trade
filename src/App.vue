@@ -21,7 +21,8 @@ export default {
         },
     },
     mounted() {
-        this.$store.dispatch('setClientServers', ['wss://node.panicbot.xyz', 'wss://node2.panicbot.xyz'])
+        const nodes = import.meta.env.VITE_APP_XRPL_WSS.split(', ')
+        this.$store.dispatch('setClientServers', nodes)
         this.$store.dispatch('clientConnect', false)
         // hard code an account for now.
         // this.$store.dispatch('setAccount', 'rThREeXrp54XTQueDowPV1RxmkEAGUmg8')
