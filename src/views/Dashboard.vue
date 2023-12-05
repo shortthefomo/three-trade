@@ -355,8 +355,8 @@ export default {
                 bids: {},
                 asks: {}
             }
-            if (data.asks === undefined) { return results }
-            if (data.bids === undefined) { return results }
+            // if (data.asks === undefined) { return results }
+            // if (data.bids === undefined) { return results }
 
             for (let index = 0; index < data.bids.length; index++) {
                 const offer = data.bids[index]
