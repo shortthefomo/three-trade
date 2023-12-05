@@ -21,7 +21,7 @@ export default {
         },
     },
     mounted() {
-        this.$store.dispatch('setClientServers', ['wss://xrplcluster.com'])
+        this.$store.dispatch('setClientServers', ['wss://node.panicbot.xyz', 'wss://node2.panicbot.xyz'])
         this.$store.dispatch('clientConnect', false)
         // hard code an account for now.
         // this.$store.dispatch('setAccount', 'rThREeXrp54XTQueDowPV1RxmkEAGUmg8')
