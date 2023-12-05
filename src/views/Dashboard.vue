@@ -331,8 +331,6 @@ export default {
                     'asks': book_result[1].offers,
                     'bids': book_result[0].offers
                 }
-                if (book_offers.asks === undefined) { return }
-                if (book_offers.bids === undefined) { return }
                 const data = this.mutateData(book_offers, (book.base_issuer !== undefined))
                 
                 this.$store.dispatch('updateBook', {
@@ -357,6 +355,8 @@ export default {
                 bids: {},
                 asks: {}
             }
+            if (data.asks === undefined) { return results }
+            if (data.bids === undefined) { return results }
 
             for (let index = 0; index < data.bids.length; index++) {
                 const offer = data.bids[index]
