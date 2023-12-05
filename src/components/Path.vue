@@ -5,8 +5,8 @@
         <p v-if="(typeof path.destination_amount === 'object')">deliver: {{ numeralFormat(path.destination_amount.value, '0,0[.]0000000000') }} {{ currencyHexToUTF8(path.destination_amount.currency) }}</p>
         <p v-else>deliver: {{ numeralFormat(path.destination_amount/1_000_000, '0,0[.]0000000000') }} XRP</p>
         <span v-for="(alt, index) in path.alternatives">
-            <span v-if="(typeof alt.source_amount === 'object')">{{ numeralFormat(alt.source_amount.value, '0,0[.]0000000000') }} {{ currencyHexToUTF8(alt.source_amount.currency) }} [* {{ printPath(alt) }}]</span>
-            <span v-else>{{ numeralFormat(alt.source_amount/1_000_000,  '0,0[.]0000000000') }} XRP</span><br/>
+            <span v-if="(typeof alt.source_amount === 'object')">{{ numeralFormat(alt.source_amount.value, '0,0[.]0000000000') }} {{ currencyHexToUTF8(alt.source_amount.currency) }} {{ printPath(alt) }}</span>
+            <span v-else>{{ numeralFormat(alt.source_amount/1_000_000,  '0,0[.]0000000000') }} XRP {{ printPath(alt) }}</span><br/>
         </span>
         <span v-if="path.alternatives === undefined ||path.alternatives.length === 0 ">No path found</span>
     </div>
@@ -55,7 +55,8 @@ export default {
     methods: {
         printPath(alt) {
             let string = ''
-            if (alt.paths_computed === undefined || !this.show_steps) { return string }
+            if (alt.paths_computed === undefined || alt.paths_computed.length === 0 || !this.show_steps) { return string }
+            string += '[* '
             for (let index = 0; index < alt.paths_computed.length; index++) {
                 const elements = alt.paths_computed[index]
                 elements.forEach(element => {
@@ -64,6 +65,7 @@ export default {
                     }    
                 })
             }
+            string += ']'
             return string
         },
         async pathing() {
