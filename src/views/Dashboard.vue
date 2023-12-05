@@ -331,6 +331,8 @@ export default {
                     'asks': book_result[1].offers,
                     'bids': book_result[0].offers
                 }
+                if (book_offers.asks === undefined) { return }
+                if (book_offers.bids === undefined) { return }
                 const data = this.mutateData(book_offers, (book.base_issuer !== undefined))
                 
                 this.$store.dispatch('updateBook', {
