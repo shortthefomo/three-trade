@@ -4,9 +4,11 @@
         <h6>paths</h6>
         <p v-if="(typeof path.destination_amount === 'object')">deliver: {{ numeralFormat(path.destination_amount.value, '0,0[.]0000000000') }} {{ currencyHexToUTF8(path.destination_amount.currency) }}</p>
         <p v-else>deliver: {{ numeralFormat(path.destination_amount/1_000_000, '0,0[.]0000000000') }} XRP</p>
-        <span v-for="(alt, index) in path.alternatives">
-            <span v-if="(typeof alt.source_amount === 'object')">{{ numeralFormat(alt.source_amount.value, '0,0[.]0000000000') }} {{ currencyHexToUTF8(alt.source_amount.currency) }} {{ printPath(alt) }}</span>
-            <span v-else>{{ numeralFormat(alt.source_amount/1_000_000,  '0,0[.]0000000000') }} XRP {{ printPath(alt) }}</span><br/>
+        <span v-if="path.alternatives !== undefined">
+            <span v-for="(alt, index) in path.alternatives">
+                <span v-if="(typeof alt.source_amount === 'object')">{{ numeralFormat(alt.source_amount.value, '0,0[.]0000000000') }} {{ currencyHexToUTF8(alt.source_amount.currency) }} {{ printPath(alt) }}</span>
+                <span v-else>{{ numeralFormat(alt.source_amount/1_000_000,  '0,0[.]0000000000') }} XRP {{ printPath(alt) }}</span><br/>
+            </span>
         </span>
         <span v-if="path.alternatives === undefined ||path.alternatives.length === 0 ">No path found</span>
     </div>
