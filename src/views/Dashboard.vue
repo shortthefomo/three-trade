@@ -159,6 +159,15 @@ export default {
             }, {
                 type: 'DEX',
                 network: 'mainnet',
+                name: 'Gatehub',
+                market: 'XAHEUR',
+                base: 'XAH',
+                quote: 'EUR',
+                base_issuer: 'rswh1fvyLqHizBS2awu1vs6QcmwTBd9qiv',
+                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
                 name: 'Bitstamp',
                 market: 'XRPUSD',
                 base: 'XRP',
@@ -187,7 +196,7 @@ export default {
                 type: 'DEX',
                 network: 'mainnet',
                 name: 'Gatehub',
-                market: 'XRPUSDT',
+                market: 'XRPUSDC',
                 base: 'XRP',
                 quote: '5553444300000000000000000000000000000000',
                 base_issuer: undefined,
