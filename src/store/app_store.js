@@ -10,6 +10,7 @@ export const AppStore = {
                 nodetype: 'MAINNET'
             }
         },
+        network: '',
         client: null,
         servers: [],
         account: '',
@@ -36,8 +37,14 @@ export const AppStore = {
         setAccount({commit}, account) {
             commit('ACCOUNT', account)
         },
+        setNetwork({commit}, network) {
+            commit('NETWORK', network)
+        },
         setSignIn({commit}, signed_in) {
             commit('SIGNIN', signed_in)
+        },
+        clearBooks({commit}) {
+            commit('BOOKS_CLEAR')
         },
         listenBook({commit}, data) {
             commit('BOOKS', data)
@@ -54,7 +61,11 @@ export const AppStore = {
             if (force === false) { return }
             if (localStorage.getItem('account')) {
                 state.account = JSON.parse(localStorage.getItem('account'))
-                console.log('loaded from state', state.account)
+                console.log('loaded account from state', state.account)
+            }
+            if (localStorage.getItem('network')) {
+                state.network = JSON.parse(localStorage.getItem('network'))
+                console.log('loaded network from state', state.network)
             }
             if (localStorage.getItem('tokenData'))
                 state.xumm.tokenData = JSON.parse(localStorage.getItem('tokenData'))
@@ -92,11 +103,16 @@ export const AppStore = {
             state.account = account
             localStorage.setItem('account', JSON.stringify(account))
         },
+        NETWORK(state, network) {
+            state.network = network
+            localStorage.setItem('network', JSON.stringify(network))
+        },
         BOOKS(state, data) {
-            const key = data.base + data.base_issuer + data.quote + data.quote_issuer
+            const key = data.base + data.base_issuer + data.quote + data.quote_issuer + '-' + data.network
             if (state.books[key] === undefined) {
                 state.books[key] = {
                     name: data.name,
+                    network: data.network,
                     type: data.type,
                     market: data.market,
                     base: data.base,
@@ -110,6 +126,9 @@ export const AppStore = {
                 }
             } 
             // localStorage.setItem('books', JSON.stringify(books))
+        },
+        BOOKS_CLEAR(state) {
+            state.books = {}
         },
         BOOK_UPDATE(state, data) {
             if (state.books[data.key] !== undefined) {
@@ -144,6 +163,9 @@ export const AppStore = {
         },
         getAccount: state => {
             return state.account
+        },
+        getNetwork: state => {
+            return state.network
         },
         getSignedIn: state => {
             return state.signed_in

@@ -2,7 +2,17 @@
     <div class="m-2 home">
         <div class="row mb-2">
             <div class="col">
-                <h1>trade</h1>
+                <h1>trade {{ network }}</h1>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <label class="pe-2">Network</label>
+                <select v-model="network" @change="onChangeNetwork($event)">
+                    <option v-for="option in networks" :value="option.value">
+                        {{ option.text }}
+                    </option>
+                </select>
             </div>
         </div>
         <div class="row mb-2">
@@ -33,8 +43,9 @@
         </div>
         
         <div class="row">
+            
             <div v-for="(book, index) in trade_books" :class="'mb-5 ' + 'col-' + col">
-                <Book  :oracle="oracle" :fx="fx" :exchange_key="book.base + book.base_issuer + book.quote + book.quote_issuer" :items="items" :col="col" :addresses="addresses"/>
+                <Book v-if="network === book.network" :oracle="oracle" :fx="fx" :exchange_key="book.base + book.base_issuer + book.quote + book.quote_issuer + '-' + book.network" :items="items" :col="col" :addresses="addresses" />
             </div>
         </div>
 
@@ -75,6 +86,11 @@ export default {
                 { text: 2, value: 6 },
                 { text: 1, value: 12 }
             ],
+            networks: [
+                { text: 'mainnet', value: 'mainnet' },
+                { text: 'xahau', value: 'xahau' },
+            ],
+            network: 'mainnet',
             col: 3,
             client: undefined,
             socketFX: null,
@@ -86,157 +102,7 @@ export default {
     mounted() {
         const self = this
         console.log('Dashboard mounted')
-        const books = [{
-            type: 'DEX',
-            name: 'Bitstamp',
-            market: 'XRPUSD',
-            base: 'XRP',
-            quote: 'USD',
-            base_issuer: undefined,
-            quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
-        }, {
-            type: 'DEX',
-            name: 'Gatehub',
-            market: 'XRPUSD',
-            base: 'XRP',
-            quote: 'USD',
-            base_issuer: undefined,
-            quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
-        }, {
-            type: 'DEX',
-            name: 'Gatehub',
-            market: 'XRPUSDT',
-            base: 'XRP',
-            quote: '5553445400000000000000000000000000000000',
-            base_issuer: undefined,
-            quote_issuer: 'rcvxE9PS9YBwxtGg1qNeewV6ZB3wGubZq'
-        }, {
-            type: 'DEX',
-            name: 'Gatehub',
-            market: 'XRPUSDT',
-            base: 'XRP',
-            quote: '5553444300000000000000000000000000000000',
-            base_issuer: undefined,
-            quote_issuer: 'rcEGREd8NmkKRE8GE424sksyt1tJVFZwu'
-        }, {
-            type: 'DEX',
-            name: 'Gatehub',
-            market: 'XRPEUR',
-            base: 'XRP',
-            quote: 'EUR',
-            base_issuer: undefined,
-            quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
-        }, {
-            type: 'DEX',
-            name: 'Bitstamp',
-            market: 'XRPEUR',
-            base: 'XRP',
-            quote: 'EUR',
-            base_issuer: undefined,
-            quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
-        }, {
-            type: 'DEX',
-            name: 'Bitstamp',
-            market: 'XRPBTC',
-            base: 'XRP',
-            quote: 'BTC',
-            base_issuer: undefined,
-            quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
-        }, {
-            type: 'DEX',
-            name: 'Gatehub',
-            market: 'XRPBTC',
-            base: 'XRP',
-            quote: 'BTC',
-            base_issuer: undefined,
-            quote_issuer: 'rchGBxcD1A1C2tdxF6papQYZ8kjRKMYcL'
-        }, {
-            type: 'DEX',
-            name: 'Bitstamp-Gatehub',
-            market: 'USDUSD',
-            base: 'USD',
-            quote: 'USD',
-            base_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
-            quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
-        }, {
-            type: 'DEX',
-            name: 'Gatehub-Gatehub',
-            market: 'USDEUR',
-            base: 'USD',
-            quote: 'EUR',
-            base_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq',
-            quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
-        }, {
-            type: 'DEX',
-            name: 'Bitstamp-Gatehub',
-            market: 'USDEUR',
-            base: 'USD',
-            quote: 'EUR',
-            base_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
-            quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
-        }, {
-            type: 'DEX',
-            name: 'xToadz',
-            market: 'XRPRIBBITS',
-            base: 'XRP',
-            quote: '5249424249545300000000000000000000000000',
-            base_issuer: undefined,
-            quote_issuer: 'rPmb5BPBAbE9jmNaFXNPH5kZEPDpRxaY77'
-        }, {
-            type: 'DEX',
-            name: 'X-Fox Club',
-            market: 'XRPFOX',
-            base: 'XRP',
-            quote: '464F580000000000000000000000000000000000',
-            base_issuer: undefined,
-            quote_issuer: 'rfox8eXfYYj476pLGmAr79sxcY6FsyfNHp'
-        }]
-
-
-        // const books = [{
-        //     type: 'DEX',
-        //     name: 'Bitstamp-Gatehub',
-        //     market: 'USDEUR',
-        //     base: 'USD',
-        //     quote: 'EUR',
-        //     base_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
-        //     quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
-        // }]
-
-        // const books = [{
-        //     type: 'DEX',
-        //     name: 'Bitstamp',
-        //     market: 'XRPUSD',
-        //     base: 'XRP',
-        //     quote: 'USD',
-        //     base_issuer: undefined,
-        //     quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
-        // }, {
-        //     type: 'DEX',
-        //     name: 'Gatehub',
-        //     market: 'XRPUSD',
-        //     base: 'XRP',
-        //     quote: 'USD',
-        //     base_issuer: undefined,
-        //     quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
-        // }]
-
-        
-        
-        this.$store.dispatch('setAccount', this.address)
-        for (let index = 0; index < books.length; index++) {
-            const book = books[index]
-            this.$store.dispatch('listenBook', book)    
-        }
-
-        
-
-
-        this.client = this.$store.getters.getClient
-        this.client.on('ledger', async (event) => {
-            // console.log('event', event)
-            this.monitor()
-        })
+        this.setMainnet()
 
         this.connectWebsocket()
         this.forex()
@@ -247,6 +113,204 @@ export default {
         }
     },
     methods: {
+        onChangeNetwork(event) {
+            console.log('event', event.target.value)
+            switch (event.target.value) {
+                case 'xahau':
+                    this.setXahau()
+                    break
+            
+                default:
+                    this.setMainnet()
+                    break
+            }
+        },
+        setMainnet() {
+            this.$store.dispatch('setNetwork', 'mainnet')
+            this.$store.dispatch('clearBooks')
+            
+            const nodes = import.meta.env.VITE_APP_XRPL_WSS.split(', ')
+            this.$store.dispatch('setClientServers', nodes)
+            this.$store.dispatch('clientConnect', false)
+
+            this.client = this.$store.getters.getClient
+                this.client.on('ledger', async (event) => {
+                // console.log('event', event)
+                this.monitor()
+            })
+            const books = [{
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'Bitstamp',
+                market: 'XRPUSD',
+                base: 'XRP',
+                quote: 'USD',
+                base_issuer: undefined,
+                quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'Gatehub',
+                market: 'XRPUSD',
+                base: 'XRP',
+                quote: 'USD',
+                base_issuer: undefined,
+                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'Gatehub',
+                market: 'XRPUSDT',
+                base: 'XRP',
+                quote: '5553445400000000000000000000000000000000',
+                base_issuer: undefined,
+                quote_issuer: 'rcvxE9PS9YBwxtGg1qNeewV6ZB3wGubZq'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'Gatehub',
+                market: 'XRPUSDT',
+                base: 'XRP',
+                quote: '5553444300000000000000000000000000000000',
+                base_issuer: undefined,
+                quote_issuer: 'rcEGREd8NmkKRE8GE424sksyt1tJVFZwu'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'Gatehub',
+                market: 'XRPEUR',
+                base: 'XRP',
+                quote: 'EUR',
+                base_issuer: undefined,
+                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'Bitstamp',
+                market: 'XRPEUR',
+                base: 'XRP',
+                quote: 'EUR',
+                base_issuer: undefined,
+                quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'Bitstamp',
+                market: 'XRPBTC',
+                base: 'XRP',
+                quote: 'BTC',
+                base_issuer: undefined,
+                quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'Gatehub',
+                market: 'XRPBTC',
+                base: 'XRP',
+                quote: 'BTC',
+                base_issuer: undefined,
+                quote_issuer: 'rchGBxcD1A1C2tdxF6papQYZ8kjRKMYcL'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'Bitstamp-Gatehub',
+                market: 'USDUSD',
+                base: 'USD',
+                quote: 'USD',
+                base_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
+                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'Gatehub-Gatehub',
+                market: 'USDEUR',
+                base: 'USD',
+                quote: 'EUR',
+                base_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq',
+                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'Bitstamp-Gatehub',
+                market: 'USDEUR',
+                base: 'USD',
+                quote: 'EUR',
+                base_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
+                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'xToadz',
+                market: 'XRPRIBBITS',
+                base: 'XRP',
+                quote: '5249424249545300000000000000000000000000',
+                base_issuer: undefined,
+                quote_issuer: 'rPmb5BPBAbE9jmNaFXNPH5kZEPDpRxaY77'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'X-Fox Club',
+                market: 'XRPFOX',
+                base: 'XRP',
+                quote: '464F580000000000000000000000000000000000',
+                base_issuer: undefined,
+                quote_issuer: 'rfox8eXfYYj476pLGmAr79sxcY6FsyfNHp'
+            }]
+            this.$store.dispatch('setAccount', this.address)
+            for (let index = 0; index < books.length; index++) {
+                const book = books[index]
+                this.$store.dispatch('listenBook', book)    
+            }
+            this.serverInfo()
+        },
+        setXahau() {
+            this.$store.dispatch('setNetwork', 'xahau')
+            this.$store.dispatch('clearBooks')
+            
+            const nodes = import.meta.env.VITE_APP_XAH_WSS.split(', ')
+            this.$store.dispatch('setClientServers', nodes)
+            this.$store.dispatch('clientConnect', false)
+
+            this.client = this.$store.getters.getClient
+                this.client.on('ledger', async (event) => {
+                // console.log('event', event)
+                this.monitor()
+            })
+            const books = [{
+                type: 'DEX',
+                network: 'xahau',
+                name: 'Gatehub',
+                market: 'XAHUSD',
+                base: 'XAH',
+                quote: 'USD',
+                base_issuer: undefined,
+                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            }, {
+                type: 'DEX',
+                network: 'xahau',
+                name: 'Gatehub',
+                market: 'XAHEUR',
+                base: 'XAH',
+                quote: 'EUR',
+                base_issuer: undefined,
+                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            }, {
+                type: 'DEX',
+                network: 'xahau',
+                name: 'Gatehub',
+                market: 'XAHXRP',
+                base: 'XAH',
+                quote: 'XRP',
+                base_issuer: undefined,
+                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            }]
+            this.$store.dispatch('setAccount', this.address)
+            for (let index = 0; index < books.length; index++) {
+                const book = books[index]
+                this.$store.dispatch('listenBook', book)    
+            }
+            this.serverInfo()
+        },
         updateAddress() {
             console.log('updateAddress')
             this.$store.dispatch('setAccount', this.address)
@@ -277,6 +341,14 @@ export default {
                 self.oracle = []
             }
         },
+        async serverInfo(){
+            this.client = this.$store.getters.getClient
+            const info = await this.client.send({
+                'command': 'server_info'
+            })
+
+            console.log(info)
+        },
         forex() {
             const self = this
             this.socketFX = new WebSocket('wss://three-forex.panicbot.xyz')
@@ -296,6 +368,7 @@ export default {
         },
         monitor() {
             const worker = async (book) => {
+                if (this.$store.getters.getNetwork !== book.network) { return }
                 const asks_books = {
                     'id': 2,
                     'command': 'book_offers',
@@ -323,19 +396,21 @@ export default {
                     this.client.send(bids_books),
                 ])
 
-                // console.log('account', this.$store.getters.getAccount)
-                // console.log('book', book)
                 // console.log('book_result', book_result)
 
+                if ('error' in book_result) { return }
                 const book_offers = {
                     'asks': book_result[1].offers,
                     'bids': book_result[0].offers
                 }
                 const data = this.mutateData(book_offers, (book.base_issuer !== undefined))
                 
+                // console.log('data', data)
+                
                 this.$store.dispatch('updateBook', {
-                    key: book.base + book.base_issuer + book.quote + book.quote_issuer,
-                    book: data
+                    key: book.base + book.base_issuer + book.quote + book.quote_issuer + '-' + book.network,
+                    book: data,
+                    network: book.network
                 })
             }
             
@@ -355,8 +430,9 @@ export default {
                 bids: {},
                 asks: {}
             }
-            // if (data.asks === undefined) { return results }
-            // if (data.bids === undefined) { return results }
+
+            if (data.asks === undefined) { data.asks = [] }
+            if (data.bids === undefined) { data.bids = [] }
 
             for (let index = 0; index < data.bids.length; index++) {
                 const offer = data.bids[index]

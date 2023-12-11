@@ -20,10 +20,18 @@ export default {
             this.layout = to.meta.layout !== undefined ? to.meta.layout : 'DefaultLayout'
         },
     },
-    mounted() {
-        const nodes = import.meta.env.VITE_APP_XRPL_WSS.split(', ')
-        this.$store.dispatch('setClientServers', nodes)
-        this.$store.dispatch('clientConnect', false)
+    async mounted() {
+        // const nodes = import.meta.env.VITE_APP_XRPL_WSS.split(', ')
+        // console.log('nodes', nodes)
+        // this.$store.dispatch('setClientServers', nodes)
+        // this.$store.dispatch('clientConnect', false)
+
+        // this.client = this.$store.getters.getClient
+        // const x = await this.client.send({
+        //     'command': 'server_info'
+        // })
+
+        // console.log(x)
         // hard code an account for now.
         // this.$store.dispatch('setAccount', 'rThREeXrp54XTQueDowPV1RxmkEAGUmg8')
     },

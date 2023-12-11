@@ -12,7 +12,7 @@
     <!-- <h5>{{ exchange.base }}<span>{{(exchange.base_issuer !== undefined ? ':' + exchange.base_issuer : '')}}</span> - {{ exchange.quote}}<span>{{ (exchange.quote_issuer !== undefined ? ':' + exchange.quote_issuer : '' )}}</span></h5> -->
     <h5>{{exchange.name}}</h5>
     <div class="p-0 dark-background border border-3 fs-7">
-        <div v-if="book.bids.length>0" class="p-2 mb-2 mt-2 container-fluid">
+        <div v-if="book.asks.length>0" class="p-2 mb-2 mt-2 container-fluid">
             <!-- <div class="asks mx-1 row" v-for="(row, index2) in book.asks.slice(book.asks.length - items, book.asks.length)"> -->
             <div class="asks mx-1 row" v-for="(row, index2) in book.asks">
                 <span class="depth" :style="'transform:scale3d(' + ask_depth(index2) + ', 1, 1) ;'"> </span>
@@ -22,7 +22,7 @@
             </div>
         </div>
         <h4 class="my-1 mx-1 fs-6 ms-4">{{format( midPrice())}} {{ currencyHexToUTF8(exchange.base) }}/{{ currencyHexToUTF8(exchange.quote) }}</h4>
-        <div v-if="book.asks.length>0" class="p-2 mb-2 mt-2 container-fluid">
+        <div v-if="book.bids.length>0" class="p-2 mb-2 mt-2 container-fluid">
             <!-- <div class="bids mx-1 row" v-for="(row, index2) in book.bids.slice(0, items)"> -->
             <div class="bids mx-1 row" v-for="(row, index2) in book.bids">
                 <span class="depth" :style="'transform:scale3d(' + bid_depth(index2) + ', 1, 1) ;'"> </span>
@@ -34,8 +34,8 @@
     </div>
 
     <div class="info mx-1 p-2 border border-1 fs-8">
-        <span v-if="getFX(exchange.quote, exchange.base) !== undefined">fx: {{getFX(exchange.quote, exchange.base)}} {{ exchange.base }}</span>
-        <span v-else-if="getOracle(exchange.quote, exchange.base) !== undefined">oracle: {{getOracle(exchange.quote, exchange.base)}}</span><br/>
+        <!-- <span v-if="getFX(exchange.quote, exchange.base) !== undefined">fx: {{getFX(exchange.quote, exchange.base)}} {{ exchange.base }}</span>
+        <span v-else-if="getOracle(exchange.quote, exchange.base) !== undefined">oracle: {{getOracle(exchange.quote, exchange.base)}}</span><br/> -->
         <span v-if="book.asks.length>0 && book.bids.length>0">spread: {{(spread())}} {{currencyHexToUTF8(exchange.quote)}} : {{ format(spreadPercent()) }} % </span><br/>
         <span v-if="book.asks.length>0"><span class="color-success">asks: {{numeralFormat(asks(), '0,0[.]0')}} {{currencyHexToUTF8(exchange.base)}}</span> </span><br/>
         <span v-if="book.bids.length>0"><span class="color-danger">bids: {{numeralFormat(bids(), '0,0[.]0')}} {{currencyHexToUTF8(exchange.base)}}</span> </span><br/>
