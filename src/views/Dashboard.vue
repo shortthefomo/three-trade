@@ -141,6 +141,15 @@ export default {
             const books = [{
                 type: 'DEX',
                 network: 'mainnet',
+                name: 'Gatehub',
+                market: 'XRPXAH',
+                base: 'XRP',
+                quote: 'XAH',
+                base_issuer: undefined,
+                quote_issuer: 'rswh1fvyLqHizBS2awu1vs6QcmwTBd9qiv'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
                 name: 'Bitstamp',
                 market: 'XRPUSD',
                 base: 'XRP',
@@ -256,6 +265,7 @@ export default {
                 base_issuer: undefined,
                 quote_issuer: 'rfox8eXfYYj476pLGmAr79sxcY6FsyfNHp'
             }]
+            
             this.$store.dispatch('setAccount', this.address)
             for (let index = 0; index < books.length; index++) {
                 const book = books[index]
