@@ -135,7 +135,7 @@ export default {
             this.pathing = !this.pathing
         },
         spread() {
-            if (this.book.asks.length == 0 || this.book.bids.length == 0) { return 0 }
+            if (this.book.asks.length === 0 || this.book.bids.length === 0) { return 0 }
             //return new decimal(this.book.asks[0].limit_price).toFixed(8)
             const value = new decimal(this.book.asks[this.book.asks.length-1].limit_price).minus(this.book.bids[0].limit_price).toFixed(8)
             if ((value*1)< 1) {
@@ -147,7 +147,7 @@ export default {
             return decimal.mul(this.spread(), '100').div(this.midPrice())
         },
         midPrice() {
-            if (this.book.bids.length == 0) { return 0 }
+            if (this.book.asks.length === 0 || this.book.bids.length === 0) { return 0 }
             // return new decimal(this.book.bids[0].limit_price).toFixed(8)
             return (new decimal(this.book.bids[0].limit_price).plus(this.book.asks[this.book.asks.length-1].limit_price)).div('2')
         },
