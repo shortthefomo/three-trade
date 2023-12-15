@@ -100,6 +100,7 @@ export default {
             this.$store.dispatch('updatePath', { key: result.id, path: result.result})
 
             this.client.on('path', (path) => {
+                if ('error' in path) { return }
                 if (self.current_address !== self.$store.getters.getAccount) {
                     console.log('switch pathing....')
                     self.pathing()

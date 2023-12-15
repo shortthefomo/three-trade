@@ -276,12 +276,21 @@ export default {
             }, {
                 type: 'DEX',
                 network: 'mainnet',
-                name: 'xToadz',
-                market: 'XRPRIBBITS',
-                base: 'XRP',
-                quote: '5249424249545300000000000000000000000000',
-                base_issuer: undefined,
-                quote_issuer: 'rPmb5BPBAbE9jmNaFXNPH5kZEPDpRxaY77'
+                name: 'CSC-Gatehub',
+                market: 'CSCUSD',
+                base: 'CSC',
+                quote: 'USD',
+                base_issuer: 'rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr',
+                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'CSC-Bitstamp',
+                market: 'CSCUSD',
+                base: 'CSC',
+                quote: 'USD',
+                base_issuer: 'rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr',
+                quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
             }, {
                 type: 'DEX',
                 network: 'mainnet',
