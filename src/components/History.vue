@@ -17,12 +17,12 @@
                     <!-- eslint-disable-next-line -->
                     <tr v-for="row in history.slice(0, items)">
                         <!-- <td :class="colorTrade(row['color'])" scope="row">{{row}}</td> -->
-                        <td scope="row">{{numeralFormat(row['limit_price'], '0,0[.]00000000')}} {{row['quote']}}</td>
-                        <td scope="row">{{numeralFormat(row['amount'], '0,0[.]00000000')}}</td>
-                        <td scope="row">{{numeralFormat(row['volume'], '0,0[.]00000000')}} {{row['base']}}</td> 
-                        <td v-if="addresses" scope="row">{{row['taker']}}</td> 
-                        <td v-if="addresses" scope="row">{{row['maker']}}</td> 
-                        <td scope="row">{{this.adjustTime(row['timestamp'])}}</td>
+                        <td class="dark-background" scope="row">{{numeralFormat(row['limit_price'], '0,0[.]00000000')}} {{row['quote']}}</td>
+                        <td class="dark-background" scope="row">{{numeralFormat(row['amount'], '0,0[.]00000000')}}</td>
+                        <td class="dark-background" scope="row">{{numeralFormat(row['volume'], '0,0[.]00000000')}} {{row['base']}}</td> 
+                        <td class="dark-background" v-if="addresses" scope="row">{{row['taker']}}</td> 
+                        <td class="dark-background" v-if="addresses" scope="row">{{row['maker']}}</td> 
+                        <td class="dark-background" scope="row">{{this.adjustTime(row['timestamp'])}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -105,9 +105,6 @@
     height: 520px;
 }
 
-.table {
-    color: #FFFFFF;
-}
 
 .table-success {
     --bs-table-bg: #00e56a;
