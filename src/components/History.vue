@@ -20,8 +20,8 @@
                         <td class="dark-background" scope="row">{{numeralFormat(row['limit_price'], '0,0[.]00000000')}} {{row['quote']}}</td>
                         <td class="dark-background" scope="row">{{numeralFormat(row['amount'], '0,0[.]00000000')}}</td>
                         <td class="dark-background" scope="row">{{numeralFormat(row['volume'], '0,0[.]00000000')}} {{row['base']}}</td> 
-                        <td class="dark-background" v-if="addresses" scope="row">{{row['taker']}}</td> 
-                        <td class="dark-background" v-if="addresses" scope="row">{{row['maker']}}</td> 
+                        <td class="dark-background" v-if="addresses" scope="row"><a :href="`https://explorer.panicbot.xyz/${row['taker']}/offers?network=mainnet`" target="_blank">{{row['taker']}}</a></td> 
+                        <td class="dark-background" v-if="addresses" scope="row"><a :href="`https://explorer.panicbot.xyz/${row['maker']}/offers?network=mainnet`" target="_blank">{{row['maker']}}</a></td> 
                         <td class="dark-background" scope="row">{{this.adjustTime(row['timestamp'])}}</td>
                     </tr>
                 </tbody>
