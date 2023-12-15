@@ -5,6 +5,7 @@
                 <h1>trade {{ network }}</h1>
             </div>
         </div>
+
         <div class="row mb-2">
             <div class="col">
                 <label class="pe-2">Network</label>
@@ -38,14 +39,7 @@
         
         <div class="row mb-4">
             <div class="col">
-                <button v-on:click="showAddresses" type="button" class="btn btn-warning me-1 mt-3 fs-8">{{ addresses ? 'hide' : 'show' }} address</button>
-            </div>
-        </div>
-        
-        <div class="row">
-            
-            <div v-for="(book, index) in trade_books" :class="'mb-5 ' + 'col-' + col">
-                <Book v-if="network === book.network" :oracle="oracle" :fx="fx" :exchange_key="book.base + book.base_issuer + book.quote + book.quote_issuer + '-' + book.network" :items="items" :col="col" :addresses="addresses" />
+                <button v-on:click="showAddresses" type="button" class="btn btn-warning me-1 mt-3">{{ addresses ? 'hide' : 'show' }} address</button>
             </div>
         </div>
 
@@ -58,16 +52,30 @@
                 </div>
             </div>
         </div>
+        
+        <div class="row">
+            <div v-for="(book, index) in trade_books" :class="'mb-5 ' + 'col-' + col">
+                <Book v-if="network === book.network" :oracle="oracle" :fx="fx" :exchange_key="book.base + book.base_issuer + book.quote + book.quote_issuer + '-' + book.network" :items="items" :col="col" :addresses="addresses" />
+            </div>
+        </div>
+
+        <div class="row">
+            <History :addresses="addresses" />
+        </div>
+        
     </div>
 </template>
 
 <script>
+import decimal from 'decimal.js'
 import Book from '../components/Book.vue'
+import History from '../components/History.vue'
 
 export default {
     name: 'Dashboard',
     components: {
-        Book
+        Book,
+        History
     },
     data() {
         return {
@@ -103,7 +111,7 @@ export default {
         const self = this
         console.log('Dashboard mounted')
         this.setMainnet()
-
+        this.ledgerClose()
         this.connectWebsocket()
         this.forex()
     },
@@ -124,6 +132,7 @@ export default {
                     this.setMainnet()
                     break
             }
+            this.$store.dispatch('clearHistoryExchange')
         },
         setMainnet() {
             this.$store.dispatch('setNetwork', 'mainnet')
@@ -536,6 +545,148 @@ export default {
                 return value.value * 1
             }
             return value * 1
+        },
+        logBook(ledger_result, exchange, transaction, last) {
+            const books = this.$store.getters.getBooks
+            for (const [key, book] of Object.entries(books)) {
+                if (book.type !== 'DEX') { continue }
+                const data = this.logTrade(ledger_result, exchange, transaction, book, last, 'test')
+                console.log('data', data)
+            }
+        },
+        ledgerClose() {
+            const callback = async (event) => {
+                let request = {
+                    'id': 'xrpl-local',
+                    'command': 'ledger',
+                    'ledger_hash': event.ledger_hash,
+                    'ledger_index': 'validated',
+                    'transactions': true,
+                    'expand': true,
+                    'owner_funds': true
+                }
+
+                const ledger_result = await this.client.send(request)
+                if ('error' in ledger_result) { return }
+                
+                if ('ledger' in ledger_result && 'transactions' in ledger_result.ledger) {
+                    for (let i = 0; i < ledger_result.ledger.transactions.length; i++) {
+                        const transaction = ledger_result.ledger.transactions[i]
+                        if (transaction.TransactionType == 'OfferCreate') {
+                            const exchanges = this.deriveExchanges(transaction)
+                            if (exchanges.length > 0) {
+                                
+                                for (let index = 0; index < exchanges.length; index++) {
+                                    const exchange = exchanges[index]
+                                    const key = exchange.base.currency + exchange.base.issuer + exchange.quote.currency + exchange.quote.issuer + '-' + this.$store.getters.getNetwork
+                                    console.log('exchange', exchange)
+                                    const trade = {
+                                        hash: exchange.hash,
+                                        quote: exchange.quote.currency,
+                                        quote_issuer: exchange.quote.issuer,
+                                        base: exchange.base.currency,
+                                        base_issuer: exchange.base.issuer,
+                                        taker: exchange.taker,
+                                        maker: exchange.maker,
+                                        amount: exchange.volume.toFixed() * exchange.price.toFixed(),
+                                        limit_price: exchange.price.toFixed(),
+                                        timestamp: new Date((ledger_result.ledger.close_time + 946684800) *  1000),
+                                    }
+                                    console.log('trade', trade)
+                                    this.$store.dispatch('pushHistoryExchange', { key: key, order: trade })
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            this.client.on('ledger', callback)
+        },
+        deriveExchanges(tx) {
+            let hash = tx.hash || tx.transaction.hash
+            let taker = tx.Account || tx.transaction.Account
+            let exchanges = []
+
+
+            for(let affected of (tx.meta || tx.metaData).AffectedNodes){
+                let node = affected.ModifiedNode || affected.DeletedNode
+
+                if(!node || node.LedgerEntryType !== 'Offer')
+                    continue
+
+                if(!node.PreviousFields || !node.PreviousFields.TakerPays || !node.PreviousFields.TakerGets)
+                    continue
+
+                let maker = node.FinalFields.Account
+                let sequence = node.FinalFields.Sequence
+                let previousTakerPays = this.fromLedgerAmount(node.PreviousFields.TakerPays)
+                let previousTakerGets = this.fromLedgerAmount(node.PreviousFields.TakerGets)
+                let finalTakerPays = this.fromLedgerAmount(node.FinalFields.TakerPays)
+                let finalTakerGets = this.fromLedgerAmount(node.FinalFields.TakerGets)
+
+                let takerPaid = {
+                    ...finalTakerPays, 
+                    value: previousTakerPays.value.minus(finalTakerPays.value)
+                }
+
+                let takerGot = {
+                    ...finalTakerGets, 
+                    value: previousTakerGets.value.minus(finalTakerGets.value)
+                }
+
+                const trade ={
+                    hash,
+                    maker,
+                    taker,
+                    sequence,
+                    base: {
+                        currency: this.currencyHexToUTF8(takerPaid.currency), 
+                        issuer: takerPaid.issuer
+                    },
+                    quote: {
+                        currency: this.currencyHexToUTF8(takerGot.currency), 
+                        issuer: takerGot.issuer
+                    },
+                    price: takerGot.value.div(takerPaid.value),
+                    volume: takerPaid.value
+                }
+                exchanges.push(trade)
+            }
+
+            return exchanges
+        },
+        fromLedgerAmount(amount) {
+            if (typeof amount === 'string') {
+                return {
+                    currency: 'XRP',
+                    value: decimal.div(amount, '1000000')
+                }
+            }
+                
+            return {
+                currency: amount.currency,
+                issuer: amount.issuer,
+                value: new decimal(amount.value)
+            }
+        },
+        currencyHexToUTF8(code) {
+            if (code.length === 3)
+                return code
+            let decoded = new TextDecoder()
+                .decode(this.hexToBytes(code))
+            let padNull = decoded.length
+            while (decoded.charAt(padNull - 1) === '\0')
+                padNull--
+            return decoded.slice(0, padNull)
+        },
+
+        hexToBytes(hex) {
+            let bytes = new Uint8Array(hex.length / 2)
+            for (let i = 0; i !== bytes.length; i++) {
+                bytes[i] = parseInt(hex.substr(i * 2, 2), 16)
+            }
+            return bytes
         }
     }
 }

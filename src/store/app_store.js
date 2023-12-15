@@ -16,7 +16,8 @@ export const AppStore = {
         account: '',
         signed_in: false,
         books: {},
-        paths: {}
+        paths: {},
+        history: [],
     }),
     actions: {
         storageInit({commit}, force) {
@@ -54,7 +55,13 @@ export const AppStore = {
         },
         updatePath({commit}, data) {
             commit('PATH_UPDATE', data)
-        }
+        },
+        pushHistoryExchange({commit}, payload) {
+            commit('HISTORY_EXCHANGE', payload)
+        },
+        clearHistoryExchange({commit}) {
+            commit('HISTORY_EXCHANGE_CLEAR')
+        },
     },
     mutations: {
         INIT(state, force = false) {
@@ -146,6 +153,20 @@ export const AppStore = {
         PATH_UPDATE(state, data) {
             // console.log('seeetttt', data.key)
             state.paths[data.key] = data
+        },
+        HISTORY_EXCHANGE(state, payload) {
+            const order = payload.order
+            const key = payload.key
+
+            const copyAll = [...state.history]
+            copyAll.unshift(order)
+            while (copyAll.length > 100) {
+                copyAll.pop()
+            }
+            state.history = copyAll
+        },
+        HISTORY_EXCHANGE_CLEAR(state) {
+            state.history = []
         }
     },
     getters: {
@@ -190,5 +211,14 @@ export const AppStore = {
             }
             return undefined
         },
+        getHistoryAll: (state) => {
+            return state.history
+        },
+        // getHistoryExchange: (state) => (key) => {
+        //     if (key in state.exchange) {
+        //         return state.exchange[key].history
+        //     }
+        //     return []
+        // },
     }
 }
