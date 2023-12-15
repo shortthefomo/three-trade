@@ -6,7 +6,7 @@
                 <thead class="table-dark">
                     <tr>
                         <th>limit price</th>
-                        <th>amount</th>
+                        <th>quantity</th>
                         <th>value</th>
                         <th v-if="addresses">taker</th>
                         <th v-if="addresses">maker</th>
@@ -18,8 +18,8 @@
                     <tr v-for="row in history.slice(0, items)">
                         <!-- <td :class="colorTrade(row['color'])" scope="row">{{row}}</td> -->
                         <td scope="row">{{numeralFormat(row['limit_price'], '0,0[.]00000000')}} {{row['quote']}}</td>
-                        <td scope="row">{{numeralFormat(row['amount'], '0,0[.]00000000')}} {{row['base']}}</td>
-                        <td scope="row">{{numeralFormat(row['amount'] * (row['limit_price'] * 1), '0,0[.]00000000')}} {{row['quote']}}</td> 
+                        <td scope="row">{{numeralFormat(row['amount'], '0,0[.]00000000')}}</td>
+                        <td scope="row">{{numeralFormat(row['volume'], '0,0[.]00000000')}} {{row['base']}}</td> 
                         <td v-if="addresses" scope="row">{{row['taker']}}</td> 
                         <td v-if="addresses" scope="row">{{row['maker']}}</td> 
                         <td scope="row">{{this.adjustTime(row['timestamp'])}}</td>

@@ -579,7 +579,7 @@ export default {
                                 for (let index = 0; index < exchanges.length; index++) {
                                     const exchange = exchanges[index]
                                     const key = exchange.base.currency + exchange.base.issuer + exchange.quote.currency + exchange.quote.issuer + '-' + this.$store.getters.getNetwork
-                                    console.log('exchange', exchange)
+                                    // console.log('exchange', exchange)
                                     const trade = {
                                         hash: exchange.hash,
                                         quote: exchange.quote.currency,
@@ -588,11 +588,12 @@ export default {
                                         base_issuer: exchange.base.issuer,
                                         taker: exchange.taker,
                                         maker: exchange.maker,
-                                        amount: exchange.volume.toFixed() * exchange.price.toFixed(),
-                                        limit_price: exchange.price.toFixed(),
+                                        volume: exchange.volume.toNumber(),
+                                        amount: exchange.volume.toNumber() * exchange.price.toNumber(),
+                                        limit_price: exchange.price.toNumber(),
                                         timestamp: new Date((ledger_result.ledger.close_time + 946684800) *  1000),
                                     }
-                                    console.log('trade', trade)
+                                    // console.log('trade', trade)
                                     this.$store.dispatch('pushHistoryExchange', { key: key, order: trade })
                                 }
                             }
