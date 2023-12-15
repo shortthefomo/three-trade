@@ -285,12 +285,12 @@ export default {
             }, {
                 type: 'DEX',
                 network: 'mainnet',
-                name: 'X-Fox Club',
-                market: 'XRPFOX',
+                name: 'Casino Coin',
+                market: 'XRPCSC',
                 base: 'XRP',
-                quote: '464F580000000000000000000000000000000000',
+                quote: 'CSC',
                 base_issuer: undefined,
-                quote_issuer: 'rfox8eXfYYj476pLGmAr79sxcY6FsyfNHp'
+                quote_issuer: 'rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr'
             }]
             
             this.$store.dispatch('setAccount', this.address)
