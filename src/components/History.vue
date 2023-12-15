@@ -19,7 +19,7 @@
                         <!-- <td :class="colorTrade(row['color'])" scope="row">{{row}}</td> -->
                         <td scope="row">{{numeralFormat(row['limit_price'], '0,0[.]00000000')}} {{row['quote']}}</td>
                         <td scope="row">{{numeralFormat(row['amount'], '0,0[.]00000000')}} {{row['base']}}</td>
-                        <td scope="row">{{numeralFormat(row['amount'] * row['limit_price'], '0,0[.]00000000')}} {{row['quote']}}</td> 
+                        <td scope="row">{{numeralFormat(row['amount'] * (row['limit_price'] * 1), '0,0[.]00000000')}} {{row['quote']}}</td> 
                         <td v-if="addresses" scope="row">{{row['taker']}}</td> 
                         <td v-if="addresses" scope="row">{{row['maker']}}</td> 
                         <td scope="row">{{this.adjustTime(row['timestamp'])}}</td>
