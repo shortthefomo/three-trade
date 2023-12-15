@@ -172,6 +172,10 @@
     background-color: rgb(31, 31, 31);
 }
 
+table a {
+    color: #FFFFFF;
+}
+
 .table-arb-opaque {
   --bs-table-bg: rgba(116, 62, 226, 0.6);
   --bs-table-striped-bg: rgba(116, 62, 226, 0.6);
