@@ -110,6 +110,10 @@ export default {
     mounted() {
         const self = this
         console.log('Dashboard mounted')
+        if (window.innerWidth < 992) {
+            this.col = 12
+        }
+
         this.setMainnet()
         this.ledgerClose()
         this.connectWebsocket()
