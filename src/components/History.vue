@@ -85,7 +85,7 @@
                         // console.log('base', element)
                         this.total += element.volume
                     }
-                    if (this.$store.getters.getNetwork == 'xahua' && element.base === 'XAH') {
+                    if (this.$store.getters.getNetwork == 'xahau' && element.base === 'XAH') {
                         // console.log('base', element)
                         this.total += element.volume
                     }
@@ -94,7 +94,7 @@
                         // console.log('quote', element)
                         this.total += element.amount
                     }
-                    if (this.$store.getters.getNetwork == 'xahua' &&  element.quote === 'XAH') {
+                    if (this.$store.getters.getNetwork == 'xahau' &&  element.quote === 'XAH') {
                         // console.log('quote', element)
                         this.total += element.amount
                     }
