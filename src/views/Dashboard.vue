@@ -133,6 +133,7 @@ export default {
                     break
             }
             this.$store.dispatch('clearHistoryExchange')
+            this.ledgerClose()
         },
         setMainnet() {
             this.$store.dispatch('setNetwork', 'mainnet')
