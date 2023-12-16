@@ -48,8 +48,7 @@
                 history: [],
                 show: false,
                 total: 0,
-                last_hash: '',
-                network: 'mainnet'
+                last_hash: ''
             }
         },
         created() {
@@ -78,13 +77,13 @@
         computed: {
             historyExchange() {
                 const history = this.$store.getters.getHistoryAll
+
+                // reset network, total counter...
+                if (history.length === 0) {
+                    this.total = 0
+                }
                 for (let index = 0; index < history.length; index++) {
                     const element = history[index]
-                    if (this.network !== this.$store.getters.getNetwork) {
-                        this.network = this.$store.getters.getNetwork
-                        this.total = 0
-                        this.last_hash = ''
-                    }
                     if (element.hash === this.last_hash) { break }
                     if (this.$store.getters.getNetwork == 'mainnet' && element.base === 'XRP') {
                         // console.log('base', element)
