@@ -82,6 +82,12 @@
 
                     if (element.hash === this.last_hash) { break }
                     if (element.base === 'XRP') {
+                        // console.log('base', element)
+                        this.xrp_total += element.volume
+                    }
+
+                    if (element.quote === 'XRP') {
+                        // console.log('quote', element)
                         this.xrp_total += element.amount
                     }
                 }
