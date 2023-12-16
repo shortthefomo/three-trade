@@ -28,7 +28,7 @@
             </table>
         </div>
     </div>
-    <p>Traded: {{ numeralFormat(this.xrp_total, '0,0[.]00000000') }} XRP</p>
+    <p>Traded: {{ numeralFormat(this.total, '0,0[.]00000000') }} {{ $store.getters.getNetwork == 'mainnet' ? 'XRP':'XAH' }}</p>
 </template>
 
 
@@ -47,7 +47,7 @@
                 historySkipCount: 0,
                 history: [],
                 show: false,
-                xrp_total: 0,
+                total: 0,
                 last_hash: ''
             }
         },
@@ -81,14 +81,22 @@
                     const element = history[index]
 
                     if (element.hash === this.last_hash) { break }
-                    if (element.base === 'XRP') {
+                    if (this.$store.getters.getNetwork == 'mainnet' && element.base === 'XRP') {
                         // console.log('base', element)
-                        this.xrp_total += element.volume
+                        this.total += element.volume
+                    }
+                    if (this.$store.getters.getNetwork == 'xahua' && element.base === 'XAH') {
+                        // console.log('base', element)
+                        this.total += element.volume
                     }
 
-                    if (element.quote === 'XRP') {
+                    if (this.$store.getters.getNetwork == 'mainnet' &&  element.quote === 'XRP') {
                         // console.log('quote', element)
-                        this.xrp_total += element.amount
+                        this.total += element.amount
+                    }
+                    if (this.$store.getters.getNetwork == 'xahua' &&  element.quote === 'XAH') {
+                        // console.log('quote', element)
+                        this.total += element.amount
                     }
                 }
                 if (history[0] !== undefined) {
