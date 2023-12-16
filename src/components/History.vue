@@ -28,6 +28,7 @@
             </table>
         </div>
     </div>
+    <p>Traded: {{ numeralFormat(this.xrp_total, '0,0[.]00000000') }} XRP</p>
 </template>
 
 
@@ -45,7 +46,9 @@
                 debouncedHistory: null,
                 historySkipCount: 0,
                 history: [],
-                show: false
+                show: false,
+                xrp_total: 0,
+                last_hash: ''
             }
         },
         created() {
@@ -73,6 +76,18 @@
         },
         computed: {
             historyExchange() {
+                const history = this.$store.getters.getHistoryAll
+                for (let index = 0; index < history.length; index++) {
+                    const element = history[index]
+
+                    if (element.hash === this.last_hash) { break }
+                    if (element.base === 'XRP') {
+                        this.xrp_total += element.amount
+                    }
+                }
+                if (history[0] !== undefined) {
+                    this.last_hash = history[0].hash
+                }
                 return this.$store.getters.getHistoryAll
             }
         },
