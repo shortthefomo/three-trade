@@ -89,20 +89,20 @@
                     if (element.hash === this.last_hash) { break }
                     if (this.$store.getters.getNetwork == 'mainnet' && element.base === 'XRP') {
                         // console.log('base', element)
-                        this.total += element.volume
+                        this.total = decimal.sum(this.total, element.volume) 
                     }
                     if (this.$store.getters.getNetwork == 'xahau' && element.base === 'XAH') {
                         // console.log('base', element)
-                        this.total += element.volume
+                        this.total = decimal.sum(this.total, element.volume) 
                     }
 
                     if (this.$store.getters.getNetwork == 'mainnet' &&  element.quote === 'XRP') {
                         // console.log('quote', element)
-                        this.total += element.amount
+                        this.total = decimal.sum(this.total, element.volume) 
                     }
                     if (this.$store.getters.getNetwork == 'xahau' &&  element.quote === 'XAH') {
                         // console.log('quote', element)
-                        this.total += element.amount
+                        this.total = decimal.sum(this.total, element.volume) 
                     }
                 }
                 if (history[0] !== undefined) {
