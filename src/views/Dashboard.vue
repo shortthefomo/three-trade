@@ -309,6 +309,15 @@ export default {
                 type: 'DEX',
                 network: 'mainnet',
                 name: 'Casino Coin',
+                market: 'CSCXRP',
+                base: 'CSC',
+                quote: 'XRP',
+                base_issuer: 'rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr',
+                quote_issuer: undefined
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'Casino Coin',
                 market: 'XRPCSC',
                 base: 'XRP',
                 quote: 'CSC',
