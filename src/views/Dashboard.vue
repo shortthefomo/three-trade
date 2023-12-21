@@ -602,9 +602,9 @@ export default {
                                         base_issuer: exchange.base.issuer,
                                         taker: exchange.taker,
                                         maker: exchange.maker,
-                                        volume: exchange.volume.toNumber(),
-                                        amount: exchange.volume.toNumber() * exchange.price.toNumber(),
-                                        limit_price: exchange.price.toNumber(),
+                                        volume: new decimal(exchange.volume).toFixed(),
+                                        amount: decimal.mul(exchange.volume, exchange.price).toFixed(),
+                                        limit_price: new decimal(exchange.price).toFixed(),
                                         timestamp: new Date((ledger_result.ledger.close_time + 946684800) *  1000),
                                     }
                                     // console.log('trade', trade)
