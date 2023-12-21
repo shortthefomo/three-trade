@@ -98,11 +98,11 @@
 
                     if (this.$store.getters.getNetwork == 'mainnet' &&  element.quote === 'XRP') {
                         // console.log('quote', element)
-                        this.total = decimal.sum(this.total, element.volume) 
+                        this.total = decimal.sum(this.total, element.amount) 
                     }
                     if (this.$store.getters.getNetwork == 'xahau' &&  element.quote === 'XAH') {
                         // console.log('quote', element)
-                        this.total = decimal.sum(this.total, element.volume) 
+                        this.total = decimal.sum(this.total, element.amount) 
                     }
                 }
                 if (history[0] !== undefined) {
