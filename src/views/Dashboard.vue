@@ -201,6 +201,15 @@ export default {
                 type: 'DEX',
                 network: 'mainnet',
                 name: 'Gatehub',
+                market: 'XAHXRP',
+                base: 'XAH',
+                quote: 'XRP',
+                base_issuer: 'rswh1fvyLqHizBS2awu1vs6QcmwTBd9qiv',
+                quote_issuer: undefined
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'Gatehub',
                 market: 'XAHUSD',
                 base: 'XAH',
                 quote: 'USD',
