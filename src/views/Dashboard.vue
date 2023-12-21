@@ -493,22 +493,22 @@ export default {
                 if (offer.taker_pays_funded !== undefined) {
                     taker_pays_funded = offer.taker_pays_funded.value || offer.taker_pays_funded / 1_000_000
                 }
-                // let taker_gets_funded = offer.taker_gets_funded.value || offer.taker_gets_funded / 1_000_000
 
-                // console.log(offer)
+                // remove expired orders from the book
                 if ('Expiration' in offer && offer.Expiration < this.ledgerEpoch()) { continue }
+                // exclude the active account from the book
                 if (offer.Account == this.$store.getters.getAccount) { continue }
                     
                 const price = 1 / ((TakerPays) / TakerGets)
-                // todo conver this to use decimal js..
                 const volume = ('taker_pays_funded' in offer && (taker_pays_funded * 1 > 0)) ? taker_pays_funded : TakerPays
-                // if (isNaN(volume)) {
-                //     console.log('nan A', offer)
-                // }
+                
+                // collaps orders
                 if (price in results.bids) {
                     results.bids[price].amount += new decimal(volume).toNumber()
                     continue
                 }
+
+                // innitial order at price
                 results.bids[price] = {
                     amount: new decimal(volume).toFixed(),
                     limit_price: price,
@@ -525,23 +525,22 @@ export default {
                 if (offer.taker_gets_funded !== undefined) {
                     taker_gets_funded = offer.taker_gets_funded.value || offer.taker_gets_funded / 1_000_000
                 }
-                // let taker_gets_funded = offer.taker_gets_funded.value || offer.taker_gets_funded / 1_000_000
-
-
+                
+                // remove expired orders from the book
                 if ('Expiration' in offer && offer.Expiration < this.ledgerEpoch()) { continue }
+                // exclude the active account from the book
                 if (offer.Account == this.$store.getters.getAccount) { continue }
 
                 const price = 1 / (TakerGets / TakerPays)
-                // todo conver this to use decimal js..
                 const volume = ('taker_gets_funded' in offer) ? taker_gets_funded : TakerGets
-                // if (isNaN(volume)) {
-                //     console.log('nan B', offer)
-                //     console.log('taker_gets_funded', taker_gets_funded)
-                // }
+
+                // collaps orders
                 if (price in results.asks) {
                     results.asks[price].amount += new decimal(volume).toNumber()
                     continue
                 }
+
+                // innitial order at price
                 results.asks[price] = {
                     amount: new decimal(volume).toFixed(),
                     limit_price: price,
