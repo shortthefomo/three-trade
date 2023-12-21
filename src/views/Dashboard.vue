@@ -499,7 +499,7 @@ export default {
                 // exclude the active account from the book
                 if (offer.Account == this.$store.getters.getAccount) { continue }
                     
-                const price = 1 / ((TakerPays) / TakerGets)
+                const price = decimal.div(1, decimal.div(TakerPays, TakerGets)).toFixed()
                 const volume = ('taker_pays_funded' in offer && (taker_pays_funded * 1 > 0)) ? taker_pays_funded : TakerPays
                 
                 // collaps orders
@@ -531,7 +531,8 @@ export default {
                 // exclude the active account from the book
                 if (offer.Account == this.$store.getters.getAccount) { continue }
 
-                const price = 1 / (TakerGets / TakerPays)
+                
+                const price = decimal.div(1, decimal.div(TakerGets, TakerPays)).toFixed()
                 const volume = ('taker_gets_funded' in offer) ? taker_gets_funded : TakerGets
 
                 // collaps orders
