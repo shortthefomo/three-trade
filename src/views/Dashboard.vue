@@ -506,11 +506,11 @@ export default {
                 //     console.log('nan A', offer)
                 // }
                 if (price in results.bids) {
-                    results.bids[price].amount += volume
+                    results.bids[price].amount += new decimal(volume).toNumber()
                     continue
                 }
                 results.bids[price] = {
-                    amount: volume,
+                    amount: new decimal(volume).toFixed(),
                     limit_price: price,
                     address: offer.Account,
                     quality: offer.quality
@@ -539,11 +539,11 @@ export default {
                 //     console.log('taker_gets_funded', taker_gets_funded)
                 // }
                 if (price in results.asks) {
-                    results.asks[price].amount += volume
+                    results.asks[price].amount += new decimal(volume).toNumber()
                     continue
                 }
                 results.asks[price] = {
-                    amount: volume,
+                    amount: new decimal(volume).toFixed(),
                     limit_price: price,
                     address: offer.Account,
                     quality: 1/offer.quality
