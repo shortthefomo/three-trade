@@ -372,6 +372,15 @@ export default {
                 quote: 'XRP',
                 base_issuer: undefined,
                 quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            }, {
+                type: 'DEX',
+                network: 'xahau',
+                name: 'Gatehub',
+                market: 'XRPXAH',
+                base: 'XRP',
+                quote: 'XAH',
+                base_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq',
+                quote_issuer: undefined
             }]
             this.$store.dispatch('setAccount', this.address)
             for (let index = 0; index < books.length; index++) {
