@@ -17,7 +17,7 @@
             <div class="asks mx-1 row" v-for="(row, index2) in book.asks">
                 <span class="depth" :style="'transform:scale3d(' + ask_depth(index2) + ', 1, 1) ;'"> </span>
                 <div class="col text-start">{{format(row['limit_price'])}} {{currencyHexToUTF8(exchange.quote)}}</div>
-                <div class="col text-start">{{row['amount']}}</div>
+                <div class="col text-start">{{format(row['amount'])}}</div>
                 <!-- <div class="col text-start">{{row['quality']}}</div> -->
                 <div class="col address" v-if="addresses"><small><a :href="`https://explorer.panicbot.xyz/${row['address']}/offers?network=mainnet`" target="_blank">{{row['address']}}</a></small></div>
             </div>
@@ -28,7 +28,7 @@
             <div class="bids mx-1 row" v-for="(row, index2) in book.bids">
                 <span class="depth" :style="'transform:scale3d(' + bid_depth(index2) + ', 1, 1) ;'"> </span>
                 <div class="col text-start">{{format(row['limit_price'])}} {{currencyHexToUTF8(exchange.quote)}}</div>
-                <div class="col text-start">{{row['amount']}}</div>
+                <div class="col text-start">{{format(row['amount'])}}</div>
                 <!-- <div class="col text-start">{{row['quality']}}</div> -->
                 <div class="col address" v-if="addresses"><small><a :href="`https://explorer.panicbot.xyz/${row['address']}/offers?network=mainnet`" target="_blank">{{row['address']}}</a></small></div>
             </div>
