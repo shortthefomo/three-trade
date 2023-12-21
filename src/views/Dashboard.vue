@@ -620,12 +620,16 @@ export default {
                                         base_issuer: exchange.base.issuer,
                                         taker: exchange.taker,
                                         maker: exchange.maker,
-                                        volume: new decimal(exchange.volume).toFixed(),
-                                        amount: decimal.mul(exchange.volume, exchange.price).toFixed(),
-                                        limit_price: new decimal(exchange.price).toFixed(),
+                                        volume: new decimal(exchange.volume).toFixed(10),
+                                        amount: decimal.mul(exchange.volume, exchange.price).toFixed(10),
+                                        limit_price: new decimal(exchange.price).toFixed(10),
                                         timestamp: new Date((ledger_result.ledger.close_time + 946684800) *  1000),
                                     }
-                                    // console.log('trade', trade)
+                                    // console.log('trade', {
+                                    //     volume: new decimal(exchange.volume).toFixed(10),
+                                    //     amount: decimal.mul(exchange.volume, exchange.price).toFixed(10),
+                                    //     limit_price: new decimal(exchange.price).toFixed(10),
+                                    // })
                                     this.$store.dispatch('pushHistoryExchange', { key: key, order: trade })
                                 }
                             }

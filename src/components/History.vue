@@ -33,8 +33,10 @@
 
 
 <script>
+    // [Log] trade – {volume: "765571680", amount: "3", limit_price: "0.0000000039186402506425002555"} (Dashboard.vue, line 560)
     import {debounce} from 'lodash'
-
+    import decimal from 'decimal.js'
+    
     export default {
         name: "TradeHistory",
         props: ['addresses'],
