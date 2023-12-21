@@ -44,7 +44,7 @@
         <!-- <h6><span>asks: {{exchange.book.asks.length}}</span></h6>
         <h6><span>bids: {{exchange.book.bids.length}}</span></h6> -->
 
-        <button v-on:click="showPath" type="button" class="btn btn-purple me-1 mt-3 fs-8">{{ pathing ? 'hide':'show' }} paths</button>
+        <button v-if="exchange.quote !== 'XRP'" v-on:click="showPath" type="button" class="btn btn-purple me-1 mt-3 fs-8">{{ pathing ? 'hide':'show' }} paths</button>
         <Path :exchange_key="exchange_key" :exchange="exchange" :loaded="isLoading" :active="pathing"/>
     </div>
     
