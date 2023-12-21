@@ -504,7 +504,7 @@ export default {
                 
                 // collaps orders
                 if (price in results.bids) {
-                    results.bids[price].amount += new decimal(volume).toNumber()
+                    results.bids[price].amount =  decimal.div(volume, results.bids[price].amount)
                     continue
                 }
 
@@ -536,7 +536,7 @@ export default {
 
                 // collaps orders
                 if (price in results.asks) {
-                    results.asks[price].amount += new decimal(volume).toNumber()
+                    results.asks[price].amount =  decimal.div(volume, results.asks[price].amount)
                     continue
                 }
 
