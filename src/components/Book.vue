@@ -162,35 +162,34 @@ export default {
         bid_depth(index2) {
             let sum = 0
             for (let index = 0; index <= index2; index++) {
-                sum += this.book.bids[index].amount *1
+                sum = decimal.sum(sum, this.book.bids[index].amount)
             }
             const total = (this.bids() > this.asks()) ? this.bids() : this.asks() //this.bids() //
-            
-            return sum / total
+            return decimal.div(sum, total).toFixed()
         },
         ask_depth(index2) {
             let sum = 0
             for (let index = this.book.asks.length -1; index >= index2; index--) {
-                sum += this.book.asks[index].amount *1
+                sum = decimal.sum(sum, this.book.asks[index].amount)
             }
 
             const total = (this.bids() > this.asks()) ? this.bids() : this.asks() //this.asks() //
             
-            return sum / total
+            return decimal.div(sum, total).toFixed()
         },
         bids() {
             let total = 0
             for (let index = 0; index < this.book.bids.length; index++) {
-                total += this.book.bids[index].amount *1
+                total = decimal.sum(total, this.book.bids[index].amount)
             }
-            return total
+            return new decimal(total).toNumber()
         },
         asks() {
             let total = 0
             for (let index = 0; index < this.book.asks.length; index++) {
-                total += this.book.asks[index].amount * 1 
+                total = decimal.sum(total, this.book.asks[index].amount)
             }
-            return total
+            return new decimal(total).toNumber()
         },
         currencyHexToUTF8(code) {
             if (code.length === 3)
