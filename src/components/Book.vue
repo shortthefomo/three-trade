@@ -154,10 +154,10 @@ export default {
             return (new decimal(this.book.bids[0].limit_price).plus(this.book.asks[this.book.asks.length-1].limit_price)).div('2')
         },
         format(value) {
-            if ((value*1) > 10) {
+            if ((value * 1) > 10) {
                 return this.numeralFormat(value, '0,0[.]00')
             }
-            if ((value * 1 ) < 0.00001) {
+            if ((value * 1 ) < 0.1) {
                 return decimal(value).toFixed(10)
             }
             return this.numeralFormat(value, '0,0[.]0000000000')
