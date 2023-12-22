@@ -155,175 +155,185 @@ export default {
             const books = [{
                 type: 'DEX',
                 network: 'mainnet',
-                name: 'Bitstamp',
-                market: 'XRPUSD',
-                base: 'XRP',
-                quote: 'USD',
-                base_issuer: undefined,
-                quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
-            }, {
-                type: 'DEX',
-                network: 'mainnet',
-                name: 'Gatehub',
-                market: 'XRPUSD',
-                base: 'XRP',
-                quote: 'USD',
-                base_issuer: undefined,
-                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
-            }, {
-                type: 'DEX',
-                network: 'mainnet',
-                name: 'Gatehub',
-                market: 'XRPUSDT',
-                base: 'XRP',
-                quote: '5553445400000000000000000000000000000000',
-                base_issuer: undefined,
-                quote_issuer: 'rcvxE9PS9YBwxtGg1qNeewV6ZB3wGubZq'
-            }, {
-                type: 'DEX',
-                network: 'mainnet',
-                name: 'Gatehub',
-                market: 'XRPUSDC',
-                base: 'XRP',
-                quote: '5553444300000000000000000000000000000000',
-                base_issuer: undefined,
-                quote_issuer: 'rcEGREd8NmkKRE8GE424sksyt1tJVFZwu'
-            }, {
-                type: 'DEX',
-                network: 'mainnet',
-                name: 'Gatehub',
-                market: 'XRPXAH',
-                base: 'XRP',
-                quote: 'XAH',
-                base_issuer: undefined,
-                quote_issuer: 'rswh1fvyLqHizBS2awu1vs6QcmwTBd9qiv'
-            }, {
-                type: 'DEX',
-                network: 'mainnet',
                 name: 'Gatehub',
                 market: 'XAHXRP',
                 base: 'XAH',
                 quote: 'XRP',
                 base_issuer: 'rswh1fvyLqHizBS2awu1vs6QcmwTBd9qiv',
                 quote_issuer: undefined
-            }, {
-                type: 'DEX',
-                network: 'mainnet',
-                name: 'Gatehub',
-                market: 'XAHUSD',
-                base: 'XAH',
-                quote: 'USD',
-                base_issuer: 'rswh1fvyLqHizBS2awu1vs6QcmwTBd9qiv',
-                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
-            }, {
-                type: 'DEX',
-                network: 'mainnet',
-                name: 'Gatehub',
-                market: 'XAHEUR',
-                base: 'XAH',
-                quote: 'EUR',
-                base_issuer: 'rswh1fvyLqHizBS2awu1vs6QcmwTBd9qiv',
-                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
-            }, {
-                type: 'DEX',
-                network: 'mainnet',
-                name: 'Gatehub',
-                market: 'XRPEUR',
-                base: 'XRP',
-                quote: 'EUR',
-                base_issuer: undefined,
-                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
-            }, {
-                type: 'DEX',
-                network: 'mainnet',
-                name: 'Bitstamp',
-                market: 'XRPEUR',
-                base: 'XRP',
-                quote: 'EUR',
-                base_issuer: undefined,
-                quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
-            }, {
-                type: 'DEX',
-                network: 'mainnet',
-                name: 'Bitstamp',
-                market: 'XRPBTC',
-                base: 'XRP',
-                quote: 'BTC',
-                base_issuer: undefined,
-                quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
-            }, {
-                type: 'DEX',
-                network: 'mainnet',
-                name: 'Gatehub',
-                market: 'XRPBTC',
-                base: 'XRP',
-                quote: 'BTC',
-                base_issuer: undefined,
-                quote_issuer: 'rchGBxcD1A1C2tdxF6papQYZ8kjRKMYcL'
-            }, {
-                type: 'DEX',
-                network: 'mainnet',
-                name: 'Bitstamp-Gatehub',
-                market: 'USDUSD',
-                base: 'USD',
-                quote: 'USD',
-                base_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
-                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
-            }, {
-                type: 'DEX',
-                network: 'mainnet',
-                name: 'Gatehub-Gatehub',
-                market: 'USDEUR',
-                base: 'USD',
-                quote: 'EUR',
-                base_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq',
-                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
-            }, {
-                type: 'DEX',
-                network: 'mainnet',
-                name: 'Bitstamp-Gatehub',
-                market: 'USDEUR',
-                base: 'USD',
-                quote: 'EUR',
-                base_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
-                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
-            }, {
-                type: 'DEX',
-                network: 'mainnet',
-                name: 'CSC-Gatehub',
-                market: 'CSCUSD',
-                base: 'CSC',
-                quote: 'USD',
-                base_issuer: 'rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr',
-                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
-            }, {
-                type: 'DEX',
-                network: 'mainnet',
-                name: 'CSC-Bitstamp',
-                market: 'CSCUSD',
-                base: 'CSC',
-                quote: 'USD',
-                base_issuer: 'rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr',
-                quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
-            }, {
-                type: 'DEX',
-                network: 'mainnet',
-                name: 'Casino Coin',
-                market: 'CSCXRP',
-                base: 'CSC',
-                quote: 'XRP',
-                base_issuer: 'rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr',
-                quote_issuer: undefined
-            }, {
-                type: 'DEX',
-                network: 'mainnet',
-                name: 'Casino Coin',
-                market: 'XRPCSC',
-                base: 'XRP',
-                quote: 'CSC',
-                base_issuer: undefined,
-                quote_issuer: 'rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr'
             }]
+            // const books = [{
+            //     type: 'DEX',
+            //     network: 'mainnet',
+            //     name: 'Bitstamp',
+            //     market: 'XRPUSD',
+            //     base: 'XRP',
+            //     quote: 'USD',
+            //     base_issuer: undefined,
+            //     quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
+            // }, {
+            //     type: 'DEX',
+            //     network: 'mainnet',
+            //     name: 'Gatehub',
+            //     market: 'XRPUSD',
+            //     base: 'XRP',
+            //     quote: 'USD',
+            //     base_issuer: undefined,
+            //     quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            // }, {
+            //     type: 'DEX',
+            //     network: 'mainnet',
+            //     name: 'Gatehub',
+            //     market: 'XRPUSDT',
+            //     base: 'XRP',
+            //     quote: '5553445400000000000000000000000000000000',
+            //     base_issuer: undefined,
+            //     quote_issuer: 'rcvxE9PS9YBwxtGg1qNeewV6ZB3wGubZq'
+            // }, {
+            //     type: 'DEX',
+            //     network: 'mainnet',
+            //     name: 'Gatehub',
+            //     market: 'XRPUSDC',
+            //     base: 'XRP',
+            //     quote: '5553444300000000000000000000000000000000',
+            //     base_issuer: undefined,
+            //     quote_issuer: 'rcEGREd8NmkKRE8GE424sksyt1tJVFZwu'
+            // }, {
+            //     type: 'DEX',
+            //     network: 'mainnet',
+            //     name: 'Gatehub',
+            //     market: 'XRPXAH',
+            //     base: 'XRP',
+            //     quote: 'XAH',
+            //     base_issuer: undefined,
+            //     quote_issuer: 'rswh1fvyLqHizBS2awu1vs6QcmwTBd9qiv'
+            // }, {
+            //     type: 'DEX',
+            //     network: 'mainnet',
+            //     name: 'Gatehub',
+            //     market: 'XAHXRP',
+            //     base: 'XAH',
+            //     quote: 'XRP',
+            //     base_issuer: 'rswh1fvyLqHizBS2awu1vs6QcmwTBd9qiv',
+            //     quote_issuer: undefined
+            // }, {
+            //     type: 'DEX',
+            //     network: 'mainnet',
+            //     name: 'Gatehub',
+            //     market: 'XAHUSD',
+            //     base: 'XAH',
+            //     quote: 'USD',
+            //     base_issuer: 'rswh1fvyLqHizBS2awu1vs6QcmwTBd9qiv',
+            //     quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            // }, {
+            //     type: 'DEX',
+            //     network: 'mainnet',
+            //     name: 'Gatehub',
+            //     market: 'XAHEUR',
+            //     base: 'XAH',
+            //     quote: 'EUR',
+            //     base_issuer: 'rswh1fvyLqHizBS2awu1vs6QcmwTBd9qiv',
+            //     quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            // }, {
+            //     type: 'DEX',
+            //     network: 'mainnet',
+            //     name: 'Gatehub',
+            //     market: 'XRPEUR',
+            //     base: 'XRP',
+            //     quote: 'EUR',
+            //     base_issuer: undefined,
+            //     quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            // }, {
+            //     type: 'DEX',
+            //     network: 'mainnet',
+            //     name: 'Bitstamp',
+            //     market: 'XRPEUR',
+            //     base: 'XRP',
+            //     quote: 'EUR',
+            //     base_issuer: undefined,
+            //     quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
+            // }, {
+            //     type: 'DEX',
+            //     network: 'mainnet',
+            //     name: 'Bitstamp',
+            //     market: 'XRPBTC',
+            //     base: 'XRP',
+            //     quote: 'BTC',
+            //     base_issuer: undefined,
+            //     quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
+            // }, {
+            //     type: 'DEX',
+            //     network: 'mainnet',
+            //     name: 'Gatehub',
+            //     market: 'XRPBTC',
+            //     base: 'XRP',
+            //     quote: 'BTC',
+            //     base_issuer: undefined,
+            //     quote_issuer: 'rchGBxcD1A1C2tdxF6papQYZ8kjRKMYcL'
+            // }, {
+            //     type: 'DEX',
+            //     network: 'mainnet',
+            //     name: 'Bitstamp-Gatehub',
+            //     market: 'USDUSD',
+            //     base: 'USD',
+            //     quote: 'USD',
+            //     base_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
+            //     quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            // }, {
+            //     type: 'DEX',
+            //     network: 'mainnet',
+            //     name: 'Gatehub-Gatehub',
+            //     market: 'USDEUR',
+            //     base: 'USD',
+            //     quote: 'EUR',
+            //     base_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq',
+            //     quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            // }, {
+            //     type: 'DEX',
+            //     network: 'mainnet',
+            //     name: 'Bitstamp-Gatehub',
+            //     market: 'USDEUR',
+            //     base: 'USD',
+            //     quote: 'EUR',
+            //     base_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
+            //     quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            // }, {
+            //     type: 'DEX',
+            //     network: 'mainnet',
+            //     name: 'CSC-Gatehub',
+            //     market: 'CSCUSD',
+            //     base: 'CSC',
+            //     quote: 'USD',
+            //     base_issuer: 'rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr',
+            //     quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            // }, {
+            //     type: 'DEX',
+            //     network: 'mainnet',
+            //     name: 'CSC-Bitstamp',
+            //     market: 'CSCUSD',
+            //     base: 'CSC',
+            //     quote: 'USD',
+            //     base_issuer: 'rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr',
+            //     quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
+            // }, {
+            //     type: 'DEX',
+            //     network: 'mainnet',
+            //     name: 'Casino Coin',
+            //     market: 'CSCXRP',
+            //     base: 'CSC',
+            //     quote: 'XRP',
+            //     base_issuer: 'rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr',
+            //     quote_issuer: undefined
+            // }, {
+            //     type: 'DEX',
+            //     network: 'mainnet',
+            //     name: 'Casino Coin',
+            //     market: 'XRPCSC',
+            //     base: 'XRP',
+            //     quote: 'CSC',
+            //     base_issuer: undefined,
+            //     quote_issuer: 'rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr'
+            // }]
             
             this.$store.dispatch('setAccount', this.address)
             for (let index = 0; index < books.length; index++) {
@@ -508,7 +518,6 @@ export default {
                 bids: {},
                 asks: {}
             }
-
             if (data.asks === undefined) { data.asks = [] }
             if (data.bids === undefined) { data.bids = [] }
 
@@ -521,12 +530,17 @@ export default {
                     taker_pays_funded = offer.taker_pays_funded.value || offer.taker_pays_funded / 1_000_000
                 }
 
+                // remove unfunded
+                if (taker_pays_funded === '0') {
+                    continue
+                }
+
                 // remove expired orders from the book
                 if ('Expiration' in offer && offer.Expiration < this.ledgerEpoch()) { continue }
                 // exclude the active account from the book
                 if (offer.Account == this.$store.getters.getAccount) { continue }
                     
-                const price = decimal.div(1, decimal.div(TakerPays, TakerGets)).toFixed(10)
+                const price = decimal.div(1, decimal.div(TakerPays, TakerGets)).toFixed(15)
                 const volume = ('taker_pays_funded' in offer && (taker_pays_funded * 1 > 0)) ? taker_pays_funded : TakerPays
                 
                 // collaps orders
@@ -537,7 +551,7 @@ export default {
 
                 // innitial order at price
                 results.bids[price] = {
-                    amount: decimal(volume).toFixed(10),
+                    amount: decimal(volume).toFixed(15),
                     limit_price: price,
                     address: offer.Account,
                     quality: offer.quality
@@ -546,11 +560,17 @@ export default {
 
             for (let index = 0; index < data.asks.length; index++) {
                 const offer = data.asks[index]
-                let TakerPays = offer.TakerPays.value || offer.TakerPays / 1_000_000
-                let TakerGets = offer.TakerGets.value || offer.TakerGets / 1_000_000
+                let TakerPays = offer.TakerPays.value || decimal.div(offer.TakerPays, 1_000_000)
+                let TakerGets = offer.TakerGets.value || decimal.div(offer.TakerGets, 1_000_000)
                 let taker_gets_funded 
                 if (offer.taker_gets_funded !== undefined) {
-                    taker_gets_funded = offer.taker_gets_funded.value || offer.taker_gets_funded / 1_000_000
+                    taker_gets_funded = offer.taker_gets_funded.value || decimal.div(offer.taker_gets_funded, 1_000_000)
+                    
+                }
+
+                // remove unfunded
+                if (taker_gets_funded === '0') {
+                    continue
                 }
                 
                 // remove expired orders from the book
@@ -559,9 +579,8 @@ export default {
                 if (offer.Account == this.$store.getters.getAccount) { continue }
 
                 
-                const price = decimal.div(1, decimal.div(TakerGets, TakerPays)).toFixed(10)
+                const price = decimal.div(1, decimal.div(TakerGets, TakerPays)).toFixed(15)
                 const volume = ('taker_gets_funded' in offer) ? taker_gets_funded : TakerGets
-
                 // collaps orders
                 if (price in results.asks) {
                     results.asks[price].amount =  decimal.sum(volume, results.asks[price].amount)
@@ -570,7 +589,7 @@ export default {
 
                 // innitial order at price
                 results.asks[price] = {
-                    amount: decimal(volume).toFixed(10),
+                    amount: decimal(volume).toFixed(15),
                     limit_price: price,
                     address: offer.Account,
                     quality: 1/offer.quality
