@@ -526,7 +526,7 @@ export default {
                 // exclude the active account from the book
                 if (offer.Account == this.$store.getters.getAccount) { continue }
                     
-                const price = decimal.div(1, decimal.div(TakerPays, TakerGets)).toFixed()
+                const price = decimal.div(1, decimal.div(TakerPays, TakerGets)).toFixed(10)
                 const volume = ('taker_pays_funded' in offer && (taker_pays_funded * 1 > 0)) ? taker_pays_funded : TakerPays
                 
                 // collaps orders
@@ -537,7 +537,7 @@ export default {
 
                 // innitial order at price
                 results.bids[price] = {
-                    amount: new decimal(volume).toFixed(),
+                    amount: decimal(volume).toFixed(10),
                     limit_price: price,
                     address: offer.Account,
                     quality: offer.quality
@@ -559,7 +559,7 @@ export default {
                 if (offer.Account == this.$store.getters.getAccount) { continue }
 
                 
-                const price = decimal.div(1, decimal.div(TakerGets, TakerPays)).toFixed()
+                const price = decimal.div(1, decimal.div(TakerGets, TakerPays)).toFixed(10)
                 const volume = ('taker_gets_funded' in offer) ? taker_gets_funded : TakerGets
 
                 // collaps orders
@@ -570,7 +570,7 @@ export default {
 
                 // innitial order at price
                 results.asks[price] = {
-                    amount: new decimal(volume).toFixed(),
+                    amount: decimal(volume).toFixed(10),
                     limit_price: price,
                     address: offer.Account,
                     quality: 1/offer.quality
@@ -629,15 +629,15 @@ export default {
                                         base_issuer: exchange.base.issuer,
                                         taker: exchange.taker,
                                         maker: exchange.maker,
-                                        volume: new decimal(exchange.volume).toFixed(10),
+                                        volume: decimal(exchange.volume).toFixed(10),
                                         amount: decimal.mul(exchange.volume, exchange.price).toFixed(10),
-                                        limit_price: new decimal(exchange.price).toFixed(10),
+                                        limit_price: decimal(exchange.price).toFixed(10),
                                         timestamp: new Date((ledger_result.ledger.close_time + 946684800) *  1000),
                                     }
                                     // console.log('trade', {
-                                    //     volume: new decimal(exchange.volume).toFixed(10),
+                                    //     volume: decimal(exchange.volume).toFixed(10),
                                     //     amount: decimal.mul(exchange.volume, exchange.price).toFixed(10),
-                                    //     limit_price: new decimal(exchange.price).toFixed(10),
+                                    //     limit_price: decimal(exchange.price).toFixed(10),
                                     // })
                                     this.$store.dispatch('pushHistoryExchange', { key: key, order: trade })
                                 }

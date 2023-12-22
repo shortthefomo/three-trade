@@ -17,9 +17,9 @@
                     <!-- eslint-disable-next-line -->
                     <tr v-for="row in history.slice(0, items)">
                         <!-- <td :class="colorTrade(row['color'])" scope="row">{{row}}</td> -->
-                        <td class="dark-background" scope="row">{{numeralFormat(row['limit_price'], '0,0[.]00000000')}} {{row['quote']}}</td>
-                        <td class="dark-background" scope="row">{{numeralFormat(row['amount'], '0,0[.]00000000')}}</td>
-                        <td class="dark-background" scope="row">{{numeralFormat(row['volume'], '0,0[.]00000000')}} {{row['base']}}</td> 
+                        <td class="dark-background" scope="row">{{formatNumber(row['limit_price'])}} {{row['quote']}}</td>
+                        <td class="dark-background" scope="row">{{formatNumber(row['amount'])}}</td>
+                        <td class="dark-background" scope="row">{{formatNumber(row['volume'])}} {{row['base']}}</td> 
                         <td class="dark-background" v-if="addresses" scope="row"><a :href="`https://explorer.panicbot.xyz/${row['taker']}/offers?network=mainnet`" target="_blank">{{row['taker']}}</a></td> 
                         <td class="dark-background" v-if="addresses" scope="row"><a :href="`https://explorer.panicbot.xyz/${row['maker']}/offers?network=mainnet`" target="_blank">{{row['maker']}}</a></td> 
                         <td class="dark-background" scope="row">{{this.adjustTime(row['timestamp'])}}</td>
@@ -33,6 +33,7 @@
 
 
 <script>
+// [Log] trade – {volume: "17670.0000000000", amount: "0.0036090000", limit_price: "0.0000002042"} (Dashboard.vue, line 569)
     // [Log] trade – {volume: "765571680", amount: "3", limit_price: "0.0000000039186402506425002555"} (Dashboard.vue, line 560)
     import {debounce} from 'lodash'
     import decimal from 'decimal.js'
@@ -128,6 +129,15 @@
                 const offset = (-1) * new Date(time).getTimezoneOffset() * 60000
                 const stamp = Math.round(new Date((time *1000 )+ offset).getTime() / 1000)
                 return new Date(stamp).toString().split(' ')[4]
+            },
+            formatNumber(value) {
+                if ((value*1) > 10) {
+                    return this.numeralFormat(value, '0,0[.]00')
+                }
+                if ((value * 1 ) < 0.000001) {
+                    return decimal(value).toFixed(10)
+                }
+                return this.numeralFormat(value, '0,0[.]0000000000')
             }
         },
     }
