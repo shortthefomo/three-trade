@@ -134,7 +134,7 @@
                 if ((value*1) > 10) {
                     return this.numeralFormat(value, '0,0[.]00')
                 }
-                if ((value * 1 ) < 0.000001) {
+                if ((value * 1 ) < 0.00001) {
                     return decimal(value).toFixed(10)
                 }
                 return this.numeralFormat(value, '0,0[.]0000000000')
