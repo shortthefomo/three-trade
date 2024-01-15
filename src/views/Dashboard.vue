@@ -368,6 +368,24 @@ export default {
                 type: 'DEX',
                 network: 'xahau',
                 name: 'Evernode',
+                market: 'XRPEVR',
+                base: 'XRP',
+                quote: 'EVR',
+                base_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq',
+                quote_issuer: 'rEvernodee8dJLaFsujS6q1EiXvZYmHXr8'
+            }, {
+                type: 'DEX',
+                network: 'xahau',
+                name: 'Evernode',
+                market: 'XRPXAH',
+                base: 'EVR',
+                quote: 'XRP',
+                base_issuer: 'rEvernodee8dJLaFsujS6q1EiXvZYmHXr8',
+                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            }, {
+                type: 'DEX',
+                network: 'xahau',
+                name: 'Evernode',
                 market: 'XAHEVR',
                 base: 'XAH',
                 quote: 'EVR',
