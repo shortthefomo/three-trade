@@ -382,7 +382,28 @@ export default {
                 quote: 'XAH',
                 base_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq',
                 quote_issuer: undefined
+            }, {
+                type: 'DEX',
+                network: 'xahau',
+                name: 'Evernode',
+                market: 'XAHEVR',
+                base: 'XAH',
+                quote: 'EVR',
+                base_issuer: undefined,
+                quote_issuer: 'rEvernodee8dJLaFsujS6q1EiXvZYmHXr8'
+            }, {
+                type: 'DEX',
+                network: 'xahau',
+                name: 'Evernode',
+                market: 'EVRXAH',
+                base: 'EVR',
+                quote: 'XAH',
+                base_issuer: 'rEvernodee8dJLaFsujS6q1EiXvZYmHXr8',
+                quote_issuer: undefined
             }]
+
+
+            
             this.$store.dispatch('setAccount', this.address)
             for (let index = 0; index < books.length; index++) {
                 const book = books[index]

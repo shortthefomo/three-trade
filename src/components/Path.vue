@@ -89,9 +89,12 @@ export default {
                 destination_account: this.$store.getters.getAccount,
                 destination_amount: {
                     value: '1',  //String(this.book.bids[0].limit_price),
-                    currency: this.exchange.quote,
-                    issuer: this.exchange.quote_issuer
-                }
+                    currency: 'USD',
+                    issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
+                },
+                'paths':
+                [[{currency: "USD", issuer: "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B", type: 48}], [{currency: "USD", issuer: "rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y", type: 48}, {account: "rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y", type: 1}, {account: "rfCVjkbDHdsv2W5rQPCLB94CgwJiJLEBCL", type: 1}], [{currency: "USD", issuer: "rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y", type: 48}, {account: "rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y", type: 1}, {account: "ra3acJP96qiiDTNnbhzevV8jNnE6qsM2pn", type: 1}], [{currency: "USD", issuer: "rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y", type: 48}, {account: "rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y", type: 1}, {account: "rM8T5Zjn1vkgkLQub4LxGA6pjF2toAaPZr", type: 1}]] (4)
+
             }
             console.log('cmd', cmd)
             const result = await this.client.send(cmd)

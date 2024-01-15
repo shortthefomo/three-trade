@@ -34,7 +34,13 @@
             </div>
         </div>
     </div>
-
+    <div class="p-0 dark-background border border-1 fs-7">
+        <div v-if="book.asks.length>0 && book.bids.length>0" class="p-2 mb-2 mt-2 container-fluid">
+            <div class="split">
+                <span class="depth" :style="'transform:scale3d(' + asks_split() + ', 1, 1) ;'"> </span>
+            </div>
+        </div>
+    </div>
     <div class="info mx-1 p-2 border border-1 fs-8">
         <!-- <span v-if="getFX(exchange.quote, exchange.base) !== undefined">fx: {{getFX(exchange.quote, exchange.base)}} {{ exchange.base }}</span>
         <span v-else-if="getOracle(exchange.quote, exchange.base) !== undefined">oracle: {{getOracle(exchange.quote, exchange.base)}}</span><br/> -->
@@ -162,6 +168,10 @@ export default {
             }
             return this.numeralFormat(value, '0,0[.]0000000000')
         },
+        asks_split() {
+            let sum = this.bids() + this.asks()
+            return decimal.div(this.asks(), sum).toFixed()
+        },
         bid_depth(index2) {
             let sum = 0
             for (let index = 0; index <= index2; index++) {
@@ -244,9 +254,18 @@ export default {
 .fs-8 {
     font-size: 0.6rem !important;
 }
-.asks, .bids {
+.asks, .bids, .split {
     position: relative;
 }
+.split .depth {
+    position: absolute;
+    background-color: rgba(0, 229, 106, 0.1);
+    transform-origin: left;
+    top: 0;
+    bottom: 0;
+    z-index: 0;
+}
+
 .asks .depth {
     position: absolute;
     background-color: rgba(0, 229, 106, 0.1);
