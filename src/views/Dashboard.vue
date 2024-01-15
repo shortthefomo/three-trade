@@ -754,7 +754,7 @@ export default {
         fromLedgerAmount(amount) {
             if (typeof amount === 'string') {
                 return {
-                    currency: 'XRP',
+                    currency: this.$store.getters.getNetwork  === 'mainnet' ? 'XRP': 'XAH',
                     value: decimal.div(amount, '1000000')
                 }
             }
