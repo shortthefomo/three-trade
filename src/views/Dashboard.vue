@@ -350,24 +350,6 @@ export default {
                 type: 'DEX',
                 network: 'xahau',
                 name: 'Gatehub',
-                market: 'XAHUSD',
-                base: 'XAH',
-                quote: 'USD',
-                base_issuer: undefined,
-                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
-            }, {
-                type: 'DEX',
-                network: 'xahau',
-                name: 'Gatehub',
-                market: 'XAHEUR',
-                base: 'XAH',
-                quote: 'EUR',
-                base_issuer: undefined,
-                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
-            }, {
-                type: 'DEX',
-                network: 'xahau',
-                name: 'Gatehub',
                 market: 'XAHXRP',
                 base: 'XAH',
                 quote: 'XRP',
@@ -400,6 +382,24 @@ export default {
                 quote: 'XAH',
                 base_issuer: 'rEvernodee8dJLaFsujS6q1EiXvZYmHXr8',
                 quote_issuer: undefined
+            }, {
+                type: 'DEX',
+                network: 'xahau',
+                name: 'Gatehub',
+                market: 'XAHUSD',
+                base: 'XAH',
+                quote: 'USD',
+                base_issuer: undefined,
+                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            }, {
+                type: 'DEX',
+                network: 'xahau',
+                name: 'Gatehub',
+                market: 'XAHEUR',
+                base: 'XAH',
+                quote: 'EUR',
+                base_issuer: undefined,
+                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
             }]
 
 
