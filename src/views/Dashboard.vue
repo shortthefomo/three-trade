@@ -404,6 +404,24 @@ export default {
                 type: 'DEX',
                 network: 'xahau',
                 name: 'Gatehub',
+                market: 'EVRUSD',
+                base: 'EVR',
+                quote: 'USD',
+                base_issuer: 'rEvernodee8dJLaFsujS6q1EiXvZYmHXr8',
+                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            }, {
+                type: 'DEX',
+                network: 'xahau',
+                name: 'Gatehub',
+                market: 'EVREUR',
+                base: 'EVR',
+                quote: 'EUR',
+                base_issuer: 'rEvernodee8dJLaFsujS6q1EiXvZYmHXr8',
+                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            }, {
+                type: 'DEX',
+                network: 'xahau',
+                name: 'Gatehub',
                 market: 'XAHUSD',
                 base: 'XAH',
                 quote: 'USD',
