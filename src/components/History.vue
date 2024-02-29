@@ -150,7 +150,6 @@
 .trade-history {
     display: block;
     overflow-y: scroll;
-    height: 520px;
 }
 
 
