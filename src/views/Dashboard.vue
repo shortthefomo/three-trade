@@ -40,6 +40,7 @@
         <div class="row mb-4">
             <div class="col">
                 <button v-on:click="showAddresses" type="button" class="btn btn-warning me-1 mt-3">{{ addresses ? 'hide' : 'show' }} address</button>
+                <button v-on:click="showQuality" type="button" class="btn btn-warning me-1 mt-3">{{ quality ? 'hide' : 'show' }} quality</button>
             </div>
         </div>
 
@@ -55,12 +56,12 @@
         
         <div class="row">
             <div v-for="(book, index) in trade_books" :class="'mb-5 ' + 'col-' + col">
-                <Book v-if="network === book.network" :oracle="oracle" :fx="fx" :exchange_key="book.base + book.base_issuer + book.quote + book.quote_issuer + '-' + book.network" :items="items" :col="col" :addresses="addresses" />
+                <Book v-if="network === book.network" :oracle="oracle" :fx="fx" :exchange_key="book.base + book.base_issuer + book.quote + book.quote_issuer + '-' + book.network" :items="items" :col="col" :addresses="addresses" :quality="quality" />
             </div>
         </div>
 
         <div class="row">
-            <History :addresses="addresses" />
+            <History :addresses="addresses" :quality="quality" />
         </div>
         
     </div>
@@ -81,6 +82,7 @@ export default {
         return {
             address: 'rThREeXrp54XTQueDowPV1RxmkEAGUmg8',
             addresses: false,
+            quality: false,
             options: [
                 { text: 'all', value: 0 },
                 { text: 10, value: 10 },
@@ -501,6 +503,10 @@ export default {
         showAddresses() {
             console.log('show_addresses clicked...')
             this.addresses = !this.addresses
+        },
+        showQuality() {
+            console.log('show_quality clicked...')
+            this.quality = !this.quality
         },
         monitor() {
             const worker = async (book) => {

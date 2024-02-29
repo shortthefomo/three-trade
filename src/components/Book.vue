@@ -18,7 +18,8 @@
                 <span class="depth" :style="'transform:scale3d(' + ask_depth(index2) + ', 1, 1) ;'"> </span>
                 <div class="col text-start">{{format(row['limit_price'])}} {{currencyHexToUTF8(exchange.quote)}}</div>
                 <div class="col text-start">{{format(row['amount'])}}</div>
-                <!-- <div class="col text-start">{{row['quality']}}</div> -->
+                <div class="col text-start" v-if="quality && (row['quality'] < 1)">{{format(row['quality'])}}</div> 
+                <div class="col text-start" v-else-if="quality">{{format(1/row['quality'])}}</div> 
                 <div class="col address" v-if="addresses"><small><a :href="`https://explorer.panicbot.xyz/${row['address']}/offers?network=mainnet`" target="_blank">{{row['address']}}</a></small></div>
             </div>
         </div>
@@ -29,7 +30,8 @@
                 <span class="depth" :style="'transform:scale3d(' + bid_depth(index2) + ', 1, 1) ;'"> </span>
                 <div class="col text-start">{{format(row['limit_price'])}} {{currencyHexToUTF8(exchange.quote)}}</div>
                 <div class="col text-start">{{format(row['amount'])}}</div>
-                <!-- <div class="col text-start">{{row['quality']}}</div> -->
+                <div class="col text-start" v-if="quality && (row['quality'] < 1)">{{format(row['quality'])}}</div> 
+                <div class="col text-start" v-else-if="quality">{{format(1/row['quality'])}}</div> 
                 <div class="col address" v-if="addresses"><small><a :href="`https://explorer.panicbot.xyz/${row['address']}/offers?network=mainnet`" target="_blank">{{row['address']}}</a></small></div>
             </div>
         </div>
@@ -64,7 +66,7 @@ import Path from './Path.vue'
 
 export default {
     name: 'Book',
-    props: ['exchange_key', 'items', 'col', 'addresses', 'fx', 'oracle'],
+    props: ['exchange_key', 'items', 'col', 'addresses', 'fx', 'oracle', 'quality'],
     components: {
         Path
     },
