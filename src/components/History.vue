@@ -11,7 +11,7 @@
                         <th v-if="addresses">taker</th>
                         <th v-if="addresses">maker</th>
                         <th>time</th>
-                        <th v-if="quality">quality</th>
+                        <!-- <th v-if="quality">quality</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -24,8 +24,8 @@
                         <td class="dark-background" v-if="addresses" scope="row"><a :href="`https://explorer.panicbot.xyz/${row['taker']}/offers?network=mainnet`" target="_blank">{{row['taker']}}</a></td> 
                         <td class="dark-background" v-if="addresses" scope="row"><a :href="`https://explorer.panicbot.xyz/${row['maker']}/offers?network=mainnet`" target="_blank">{{row['maker']}}</a></td> 
                         <td class="dark-background" scope="row">{{this.adjustTime(row['timestamp'])}}</td>
-                        <td class="dark-background" scope="row" v-if="quality && (row['amount']/row['limit_price']) < 1">{{formatNumber(row['amount']/row['limit_price'])}}</td>
-                        <td class="dark-background" scope="row" v-else-if="quality">{{formatNumber(row['limit_price']/row['amount'])}}</td>
+                        <!-- <td class="dark-background" scope="row" v-if="quality && (row['amount']/row['limit_price']) < 1">{{formatNumber(row['amount']/row['limit_price'])}}</td>
+                        <td class="dark-background" scope="row" v-else-if="quality">{{formatNumber(row['limit_price']/row['amount'])}}</td> -->
                     </tr>
                 </tbody>
             </table>
