@@ -10,8 +10,8 @@
                         <th>value</th>
                         <th v-if="addresses">taker</th>
                         <th v-if="addresses">maker</th>
+                        <th v-if="quality">quality</th>
                         <th>time</th>
-                        <th v-if="quality">quality1</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,10 +23,10 @@
                         <td class="dark-background" scope="row">{{formatNumber(row['volume'])}} {{row['base']}}</td> 
                         <td class="dark-background" v-if="addresses" scope="row"><a :href="`https://explorer.panicbot.xyz/${row['taker']}/offers?network=mainnet`" target="_blank">{{row['taker']}}</a></td> 
                         <td class="dark-background" v-if="addresses" scope="row"><a :href="`https://explorer.panicbot.xyz/${row['maker']}/offers?network=mainnet`" target="_blank">{{row['maker']}}</a></td> 
-                        <td class="dark-background" scope="row">{{this.adjustTime(row['timestamp'])}}</td>
                         <td class="dark-background" scope="row" v-if="quality && row['quote'] === 'XRP'">{{formatNumber(0.000001/(row['amount']/row['volume']))}}</td>
                         <td class="dark-background" scope="row" v-else-if="quality && row['base'] === 'XRP'">{{formatNumber(row['limit_price']/1_000_000)}}</td>
                         <td class="dark-background" scope="row" v-else-if="quality">-</td>
+                        <td class="dark-background" scope="row">{{this.adjustTime(row['timestamp'])}}</td>
                     </tr>
                 </tbody>
             </table>
