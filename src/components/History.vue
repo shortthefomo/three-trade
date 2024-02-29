@@ -23,8 +23,8 @@
                         <td class="dark-background" scope="row">{{formatNumber(row['volume'])}} {{row['base']}}</td> 
                         <td class="dark-background" v-if="addresses" scope="row"><a :href="`https://explorer.panicbot.xyz/${row['taker']}/offers?network=mainnet`" target="_blank">{{row['taker']}}</a></td> 
                         <td class="dark-background" v-if="addresses" scope="row"><a :href="`https://explorer.panicbot.xyz/${row['maker']}/offers?network=mainnet`" target="_blank">{{row['maker']}}</a></td> 
-                        <td class="dark-background" scope="row" v-if="quality && row['quote'] === 'XRP'">{{formatNumber(0.000001/(row['amount']/row['volume']))}}</td>
-                        <td class="dark-background" scope="row" v-else-if="quality && row['base'] === 'XRP'">{{formatNumber(row['limit_price']/1_000_000)}}</td>
+                        <td class="dark-background" scope="row" v-if="quality && (($store.getters.getNetwork === 'mainnet' && row['quote'] === 'XRP')||($store.getters.getNetwork === 'xahau' && row['quote'] === 'XAH'))">{{formatNumber(0.000001/(row['amount']/row['volume']))}}</td>
+                        <td class="dark-background" scope="row" v-else-if="quality && (($store.getters.getNetwork === 'mainnet' && row['base'] === 'XRP')||($store.getters.getNetwork === 'xahau' && row['base'] === 'XAH'))">{{formatNumber(row['limit_price']/1_000_000)}}</td>
                         <td class="dark-background" scope="row" v-else-if="quality">-</td>
                         <td class="dark-background" scope="row">{{this.adjustTime(row['timestamp'])}}</td>
                     </tr>
