@@ -686,6 +686,10 @@ export default {
                 if ('ledger' in ledger_result && 'transactions' in ledger_result.ledger) {
                     for (let i = 0; i < ledger_result.ledger.transactions.length; i++) {
                         const transaction = ledger_result.ledger.transactions[i]
+                        if (transaction?.Paths) {
+                            this.deriveExchanges(transaction)
+                        }
+
                         if (transaction.TransactionType == 'OfferCreate') {
                             const exchanges = this.deriveExchanges(transaction)
                             if (exchanges.length > 0) {
