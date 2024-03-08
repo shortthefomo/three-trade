@@ -11,6 +11,7 @@
                         <th v-if="addresses">taker</th>
                         <th v-if="addresses">maker</th>
                         <th v-if="quality">quality</th>
+                        <th v-if="addresses">pathing</th>
                         <th>time</th>
                     </tr>
                 </thead>
@@ -26,6 +27,7 @@
                         <td class="dark-background" scope="row" v-if="quality && (($store.getters.getNetwork === 'mainnet' && row['quote'] === 'XRP')||($store.getters.getNetwork === 'xahau' && row['quote'] === 'XAH'))">{{formatNumber(0.000001/(row['amount']/row['volume']))}}</td>
                         <td class="dark-background" scope="row" v-else-if="quality && (($store.getters.getNetwork === 'mainnet' && row['base'] === 'XRP')||($store.getters.getNetwork === 'xahau' && row['base'] === 'XAH'))">{{formatNumber(row['limit_price']/1_000_000)}}</td>
                         <td class="dark-background" scope="row" v-else-if="quality">-</td>
+                        <td class="dark-background" scope="row" v-if="addresses">{{ row['pathing'] }}</td>
                         <td class="dark-background" scope="row">{{this.adjustTime(row['timestamp'])}}</td>
                     </tr>
                 </tbody>

@@ -687,7 +687,35 @@ export default {
                     for (let i = 0; i < ledger_result.ledger.transactions.length; i++) {
                         const transaction = ledger_result.ledger.transactions[i]
                         if (transaction?.Paths) {
-                            this.deriveExchanges(transaction)
+                            const exchanges = this.deriveExchanges(transaction)
+                            if (exchanges.length > 0) {
+                                
+                                for (let index = 0; index < exchanges.length; index++) {
+                                    const exchange = exchanges[index]
+                                    const key = exchange.base.currency + exchange.base.issuer + exchange.quote.currency + exchange.quote.issuer + '-' + this.$store.getters.getNetwork
+                                    // console.log('exchange', exchange)
+                                    const trade = {
+                                        hash: exchange.hash,
+                                        quote: exchange.quote.currency,
+                                        quote_issuer: exchange.quote.issuer,
+                                        base: exchange.base.currency,
+                                        base_issuer: exchange.base.issuer,
+                                        taker: exchange.taker,
+                                        maker: exchange.maker,
+                                        volume: decimal(exchange.volume).toFixed(10),
+                                        amount: decimal.mul(exchange.volume, exchange.price).toFixed(10),
+                                        limit_price: decimal(exchange.price).toFixed(10),
+                                        timestamp: new Date((ledger_result.ledger.close_time + 946684800) *  1000),
+                                        pathing: true
+                                    }
+                                    // console.log('trade', {
+                                    //     volume: decimal(exchange.volume).toFixed(10),
+                                    //     amount: decimal.mul(exchange.volume, exchange.price).toFixed(10),
+                                    //     limit_price: decimal(exchange.price).toFixed(10),
+                                    // })
+                                    this.$store.dispatch('pushHistoryExchange', { key: key, order: trade })
+                                }
+                            }
                         }
 
                         if (transaction.TransactionType == 'OfferCreate') {
@@ -710,6 +738,7 @@ export default {
                                         amount: decimal.mul(exchange.volume, exchange.price).toFixed(10),
                                         limit_price: decimal(exchange.price).toFixed(10),
                                         timestamp: new Date((ledger_result.ledger.close_time + 946684800) *  1000),
+                                        pathing: false
                                     }
                                     // console.log('trade', {
                                     //     volume: decimal(exchange.volume).toFixed(10),
