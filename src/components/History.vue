@@ -27,7 +27,7 @@
                         <td class="dark-background" scope="row" v-if="quality && (($store.getters.getNetwork === 'mainnet' && row['quote'] === 'XRP')||($store.getters.getNetwork === 'xahau' && row['quote'] === 'XAH'))">{{formatNumber(0.000001/(row['amount']/row['volume']))}}</td>
                         <td class="dark-background" scope="row" v-else-if="quality && (($store.getters.getNetwork === 'mainnet' && row['base'] === 'XRP')||($store.getters.getNetwork === 'xahau' && row['base'] === 'XAH'))">{{formatNumber(row['limit_price']/1_000_000)}}</td>
                         <td class="dark-background" scope="row" v-else-if="quality">-</td>
-                        <td class="dark-background" scope="row" v-if="addresses">{{ row['pathing'] }}</td>
+                        <td class="dark-background" scope="row" :class="(row['pathing']) ? 'color-success table-success':'color-danger table-danger'" v-if="addresses">{{ row['pathing'] }}</td>
                         <td class="dark-background" scope="row">{{this.adjustTime(row['timestamp'])}}</td>
                     </tr>
                 </tbody>
@@ -204,10 +204,10 @@
     border-color: rgba(255, 26, 139, 0.6);
 }
 
-.color-danger {
+.color-danger, .dark-background.color-danger {
     color: #FF1A8B;
 }
-.color-success {
+.color-success, .dark-background.color-success {
     color:#00e56a;
 }
 .color-warning {
