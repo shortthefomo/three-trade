@@ -1,10 +1,10 @@
 <template>
     <div class="m-2 home">
-        <div class="row mb-2">
+        <!-- <div class="row mb-2">
             <div class="col">
                 <h1>trade {{ network }}</h1>
             </div>
-        </div>
+        </div> -->
 
         <div class="row mb-2">
             <div class="col">
@@ -55,8 +55,8 @@
         </div>
         
         <div class="row">
-            <div v-for="(book, index) in trade_books" :class="'mb-5 ' + 'col-' + col">
-                <Book v-if="network === book.network" :oracle="oracle" :fx="fx" :exchange_key="book.base + book.base_issuer + book.quote + book.quote_issuer + '-' + book.network" :items="items" :col="col" :addresses="addresses" :quality="quality" />
+            <div v-for="(book, index) in trade_books" :class="'mb-5 col-xl-3 col-lg-4 col-md-6 col-12'">
+                <Book v-if="network === book.network" :oracle="oracle" :fx="fx" :exchange_key="book.base + book.base_issuer + book.quote + book.quote_issuer + '-' + book.network" :items="items" :addresses="addresses" :quality="quality" />
             </div>
         </div>
 
@@ -90,18 +90,11 @@ export default {
                 { text: 25, value: 25 }
             ],
             items: 10,
-            cols: [
-                { text: 4, value: 3 },
-                { text: 3, value: 4 },
-                { text: 2, value: 6 },
-                { text: 1, value: 12 }
-            ],
             networks: [
                 { text: 'mainnet', value: 'mainnet' },
                 { text: 'xahau', value: 'xahau' },
             ],
             network: 'mainnet',
-            col: 3,
             client: undefined,
             socketFX: null,
             socket: null,
@@ -112,9 +105,6 @@ export default {
     mounted() {
         const self = this
         console.log('Dashboard mounted')
-        if (window.innerWidth < 992) {
-            this.col = 12
-        }
 
         this.setMainnet()
         this.ledgerClose()

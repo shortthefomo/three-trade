@@ -66,7 +66,7 @@ import Path from './Path.vue'
 
 export default {
     name: 'Book',
-    props: ['exchange_key', 'items', 'col', 'addresses', 'fx', 'oracle', 'quality'],
+    props: ['exchange_key', 'items', 'addresses', 'fx', 'oracle', 'quality'],
     components: {
         Path
     },

@@ -1,6 +1,6 @@
 <template>
-    <p v-if="deliver">deliver: {{amount}} {{currencyHexToUTF8(deliver.split(':')[0])}}</p>
-    <div v-if="path?.alternatives" class="p-0 m-2 dark-background border border-1 p-2 col-2 fs-7"  v-for="(alt, index) in path?.alternatives">
+    <!-- <p v-if="deliver">deliver: {{amount}} {{currencyHexToUTF8(deliver.split(':')[0])}}</p> -->
+    <div v-if="path?.alternatives" class="p-0 m-2 dark-background border border-1 p-2 col-xl-2 col-md-3 col-12 fs-7"  v-for="(alt, index) in path?.alternatives">
         <div class="p-2 mb-2 mt-2 container-fluid">
             <div class="mx-1 row">
                 <div v-if="typeof alt.source_amount === 'object'" class="col-12 text-center">{{ currencyHexToUTF8(alt.source_amount.currency)}}</div>
@@ -15,7 +15,7 @@
             </div>
             <div class="mx-1 mt-3 row">
                 <div class="col-12 text-center"><button>pay</button></div>
-                <div v-if="alt.source_amount.currency === 'XAH' && deliver.split(':')[0] ==='USD'" class="col-12 mt-3 text-center">rate: {{ 1/alt.source_amount.value }}</div>
+                <div v-if="alt.source_amount.currency === 'XAH' && currencyHexToUTF8(deliver.split(':')[0]).includes('USD')" class="col-12 mt-3 text-center">rate: {{ 1/alt.source_amount.value }}</div>
             </div>
         </div>
     </div>
@@ -30,7 +30,8 @@ export default {
     props: ['deliver', 'amount'],
     data() {
         return {
-            client: undefined
+            client: undefined,
+            loaded: false
         }
     },
     mounted() {
@@ -41,7 +42,7 @@ export default {
     },
     computed: {
         path() {
-            const xpath = this.$store.getters.getPath('swap')
+            const xpath = this.$store.getters.getPath('swap-' + this.deliver + '-' + this.amount)
             return xpath?.path
         },
     },
@@ -51,18 +52,20 @@ export default {
             if (this.client !== undefined) {
                 this.client.close()
                 this.client = undefined
-                this.$store.dispatch('updatePath', { key: 'swap', path: {}})
+                this.$store.dispatch('updatePath', { key: 'swap-' + this.deliver + '-' + this.amount, path: {}})
             }
             this.pathing()
+            this.loaded = true
         },
         amount(value) {
             console.log('Amount changed')
             if (this.client !== undefined) {
                 this.client.close()
                 this.client = undefined
-                this.$store.dispatch('updatePath', { key: 'swap', path: {}})
+                this.$store.dispatch('updatePath', { key: 'swap-' + this.deliver + '-' + this.amount, path: {}})
             }
             this.pathing()
+            this.loaded = true
         }
     },
     methods: {
@@ -70,7 +73,7 @@ export default {
             if (this.deliver === undefined) { return }
             if (this.amount === undefined) { return }
             
-            if (this.loaded) {
+            if (!this.loaded) {
                 await this.pause()
                 return await this.pathing()
             }
@@ -80,7 +83,7 @@ export default {
 
             const self = this
             const cmd = {
-                id: 'swap',
+                id: 'swap-' + this.deliver + '-' + this.amount,
                 command: 'path_find',
                 subcommand: 'create',
                 source_account: this.$store.getters.getAccount,

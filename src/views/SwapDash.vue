@@ -19,6 +19,7 @@
 
         <div class="row mb-2">
             <div class="col">
+                <div class="row"></div>
                 <label class="pe-2">Deliver</label>
                 <select v-model="deliver" @change="onChangeDeliver($event)">
                     <option v-for="option in trustlines" :value="option.currency + ':' + option.account">
@@ -26,9 +27,11 @@
                     </option>
                 </select>
             </div>
+        </div>
+        <div class="row mb-2">
             <div class="col">
                 <label class="pe-2">Amount</label>
-                <input v-model="amount" />
+                <input class="mt-2" v-model="amount" />
             </div>
         </div>
 
@@ -38,7 +41,7 @@
 
         <div class="row">
             <div v-for="(book, index) in trade_books" :class="'mb-5 ' + 'col-12'">
-                <Book v-if="network === book.network" :oracle="oracle" :fx="fx" :exchange_key="book.base + book.base_issuer + book.quote + book.quote_issuer + '-' + book.network" :items="items" :col="4" :addresses="addresses" :quality="quality" />
+                <Book v-if="network === book.network" :oracle="oracle" :fx="fx" :exchange_key="book.base + book.base_issuer + book.quote + book.quote_issuer + '-' + book.network" :items="items" :addresses="addresses" :quality="quality" />
             </div>
         </div>
     </div>
@@ -67,18 +70,11 @@ export default {
                 { text: 25, value: 25 }
             ],
             items: 10,
-            cols: [
-                { text: 4, value: 3 },
-                { text: 3, value: 4 },
-                { text: 2, value: 6 },
-                { text: 1, value: 12 }
-            ],
             networks: [
                 { text: 'mainnet', value: 'mainnet' },
                 { text: 'xahau', value: 'xahau' },
             ],
             network: 'mainnet',
-            col: 3,
             client: undefined,
             socketFX: null,
             socket: null,
@@ -92,10 +88,6 @@ export default {
     mounted() {
         const self = this
         console.log('SwapDash mounted')
-        if (window.innerWidth < 992) {
-            this.col = 12
-        }
-
         this.setMainnet()
         this.ledgerClose()
         this.connectWebsocket()
