@@ -18,6 +18,7 @@ export const AppStore = {
         books: {},
         paths: {},
         history: [],
+        trustlines: []
     }),
     actions: {
         storageInit({commit}, force) {
@@ -37,6 +38,9 @@ export const AppStore = {
         },
         setAccount({commit}, account) {
             commit('ACCOUNT', account)
+        },
+        setTrustLines({commit}, trustlines) {
+            commit('TRUSTLINES', trustlines)
         },
         setNetwork({commit}, network) {
             commit('NETWORK', network)
@@ -69,6 +73,10 @@ export const AppStore = {
             if (localStorage.getItem('account')) {
                 state.account = JSON.parse(localStorage.getItem('account'))
                 console.log('loaded account from state', state.account)
+            }
+            if (localStorage.getItem('trustlines')) {
+                state.trustlines = JSON.parse(localStorage.getItem('trustlines'))
+                console.log('loaded trustlines from state', state.trustlines)
             }
             if (localStorage.getItem('network')) {
                 state.network = JSON.parse(localStorage.getItem('network'))
@@ -109,6 +117,10 @@ export const AppStore = {
         ACCOUNT(state, account) {
             state.account = account
             localStorage.setItem('account', JSON.stringify(account))
+        },
+        TRUSTLINES(state, trustlines) {
+            state.trustlines = trustlines
+            localStorage.setItem('trustlines', JSON.stringify(trustlines))
         },
         NETWORK(state, network) {
             state.network = network
@@ -184,6 +196,9 @@ export const AppStore = {
         },
         getAccount: state => {
             return state.account
+        },
+        getTrustlines: state => {
+            return state.trustlines
         },
         getNetwork: state => {
             return state.network

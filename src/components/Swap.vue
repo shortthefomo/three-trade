@@ -1,16 +1,23 @@
 <template>
-    <div v-if="active && $store.getters.getPath(exchange_key) !== undefined && 'alternatives' in path">
-        <hr>
-        <h6>paths</h6>
-        <p v-if="(typeof path.destination_amount === 'object')">deliver: {{ numeralFormat(path.destination_amount.value, '0,0[.]0000000000') }} {{ currencyHexToUTF8(path.destination_amount.currency) }}</p>
-        <p v-else>deliver: {{ numeralFormat(path.destination_amount/1_000_000, '0,0[.]0000000000') }} XRP</p>
-        <span v-if="path.alternatives !== undefined">
-            <span v-for="(alt, index) in path.alternatives">
-                <span v-if="(typeof alt.source_amount === 'object')">{{ numeralFormat(alt.source_amount.value, '0,0[.]0000000000') }} {{ currencyHexToUTF8(alt.source_amount.currency) }} {{ printPath(alt) }}</span>
-                <span v-else>{{ numeralFormat(alt.source_amount/1_000_000,  '0,0[.]0000000000') }} XRP {{ printPath(alt) }}</span><br/>
-            </span>
-        </span>
-        <span v-if="path.alternatives === undefined ||path.alternatives.length === 0 ">No path found</span>
+    <p v-if="deliver">deliver: {{amount}} {{currencyHexToUTF8(deliver.split(':')[0])}}</p>
+    <div v-if="path?.alternatives" class="p-0 m-2 dark-background border border-1 p-2 col-2 fs-7"  v-for="(alt, index) in path?.alternatives">
+        <div class="p-2 mb-2 mt-2 container-fluid">
+            <div class="mx-1 row">
+                <div v-if="typeof alt.source_amount === 'object'" class="col-12 text-center">{{ currencyHexToUTF8(alt.source_amount.currency)}}</div>
+                <div v-if="typeof alt.source_amount === 'object'" class="col-12 text-center"><small>{{ alt.paths_computed[0][0]?.account}}</small></div>
+                <div v-if="typeof alt.source_amount === 'object'" class="col-12 mt-3 text-center"><h5>{{ alt.source_amount.value }}</h5></div>
+
+                <div v-if="typeof alt.source_amount !== 'object'" class="col-12 text-center">{{ $store.getters.getNetwork === 'xahau' ? 'XAU':'XRP' }}</div>
+                <div v-if="typeof alt.source_amount !== 'object'" class="col-12 text-center"><small>-</small></div>
+                <div v-if="typeof alt.source_amount !== 'object'" class="col-12 mt-3 text-center"><h5>{{ alt.source_amount / 1_000_000 }}</h5></div>
+
+                
+            </div>
+            <div class="mx-1 mt-3 row">
+                <div class="col-12 text-center"><button>pay</button></div>
+                <div v-if="alt.source_amount.currency === 'XAH' && deliver.split(':')[0] ==='USD'" class="col-12 mt-3 text-center">rate: {{ 1/alt.source_amount.value }}</div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -20,12 +27,10 @@ import { XrplClient } from 'xrpl-client'
 
 export default {
     name: 'Path',
-    props: ['exchange_key', 'exchange', 'loaded', 'active', 'units'],
+    props: ['deliver', 'amount'],
     data() {
         return {
-            client: null,
-            current_address: '',
-            show_steps: true
+            client: undefined
         }
     },
     mounted() {
@@ -36,61 +41,54 @@ export default {
     },
     computed: {
         path() {
-            const xpath = this.$store.getters.getPath(this.exchange_key)
-            return xpath.path
+            const xpath = this.$store.getters.getPath('swap')
+            return xpath?.path
         },
     },
     watch: {
-        async active(newValue) {
-            // console.log('active', newValue)
-            if (newValue && this.client == null) {
-                this.pathing()
-                return
+        deliver(value) {
+            console.log('deliver changed')
+            if (this.client !== undefined) {
+                this.client.close()
+                this.client = undefined
+                this.$store.dispatch('updatePath', { key: 'swap', path: {}})
             }
-
-            if (this.client !== null) {
-                await this.client.close()
-                this.client = null
+            this.pathing()
+        },
+        amount(value) {
+            console.log('Amount changed')
+            if (this.client !== undefined) {
+                this.client.close()
+                this.client = undefined
+                this.$store.dispatch('updatePath', { key: 'swap', path: {}})
             }
+            this.pathing()
         }
     },
     methods: {
-        printPath(alt) {
-            let string = ''
-            if (alt.paths_computed === undefined || alt.paths_computed.length === 0 || !this.show_steps) { return string }
-            string += '[* '
-            for (let index = 0; index < alt.paths_computed.length; index++) {
-                const elements = alt.paths_computed[index]
-                elements.forEach(element => {
-                    if ('currency' in element) {
-                        string += '->' + this.currencyHexToUTF8(element.currency)
-                    }    
-                })
-            }
-            string += ']'
-            return string
-        },
         async pathing() {
+            if (this.deliver === undefined) { return }
+            if (this.amount === undefined) { return }
+            
             if (this.loaded) {
                 await this.pause()
                 return await this.pathing()
             }
             this.current_address = this.$store.getters.getAccount
             // we need a new connection for each pathfind...
-            if (this.client === null) {
-                this.client = new XrplClient(this.$store.getters.getClientServers)    
-            }
+            this.client = new XrplClient(this.$store.getters.getClientServers)
+
             const self = this
             const cmd = {
-                id: this.exchange_key,
+                id: 'swap',
                 command: 'path_find',
                 subcommand: 'create',
                 source_account: this.$store.getters.getAccount,
                 destination_account: this.$store.getters.getAccount,
                 destination_amount: {
-                    value: this.units,  //String(this.book.bids[0].limit_price),
-                    currency: this.exchange.quote,
-                    issuer: this.exchange.quote_issuer
+                    value: String(this.amount),
+                    currency: this.deliver.split(':')[0],
+                    issuer: this.deliver.split(':')[1]
                 }
             }
             console.log('cmd', cmd)
@@ -101,11 +99,6 @@ export default {
 
             this.client.on('path', (path) => {
                 if ('error' in path) { return }
-                if (self.current_address !== self.$store.getters.getAccount) {
-                    console.log('switch pathing....')
-                    self.pathing()
-                    return
-                }
                 if ('alternatives' in path) {
                     self.$store.dispatch('updatePath', { key: path.id, path: path}) 
                 }
@@ -113,7 +106,6 @@ export default {
             })
             this.client.on('close', () => {
                 console.log('close')
-                self.$store.dispatch('updatePath', { key: self.exchange_key, path: {}})
             })
             this.client.on('error', (error) => {
                 console.log('error', error)
