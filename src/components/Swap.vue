@@ -15,7 +15,9 @@
             </div>
             <div class="mx-1 mt-3 row">
                 <div class="col-12 text-center"><button>pay</button></div>
-                <div v-if="alt.source_amount.currency === 'XAH' && currencyHexToUTF8(deliver.split(':')[0]).includes('USD')" class="col-12 mt-3 text-center">rate: {{ numeralFormat(amount/alt.source_amount.value, '0,0[.]00000') }} USD</div>
+                <!-- <div v-if="(alt.source_amount.currency === 'XAH' || alt.source_amount.currency === 'XRP') && currencyHexToUTF8(deliver.split(':')[0]).includes('USD')" class="col-12 mt-3 text-center">rate: {{ numeralFormat(amount/alt.source_amount.value, '0,0[.]00000') }} </div> -->
+                <div v-if="alt.source_amount.currency !== undefined && (currencyHexToUTF8(deliver.split(':')[0]).includes('USD'))" class="col-12 mt-3 text-center">rate: {{ numeralFormat(amount/alt.source_amount.value, '0,0[.]00000') }} {{ currencyHexToUTF8(alt.source_amount.currency) }}</div>
+                <div v-else-if="alt.source_amount.currency !== undefined && (currencyHexToUTF8(alt.source_amount.currency).includes('USD'))" class="col-12 mt-3 text-center">rate: {{ numeralFormat(amount/alt.source_amount.value, '0,0[.]00000') }} {{ currencyHexToUTF8(deliver.split(':')[0]) }}</div>
                 <div v-if="typeof alt.source_amount !== 'object'" class="col-12 mt-3 text-center">rate: {{ numeralFormat((alt.source_amount/1_000_000)/amount, '0,0[.]000000')  }} {{ $store.getters.getNetwork === 'xahau' ? 'XAU':'XRP' }}</div>
                 <div v-if="typeof alt.source_amount !== 'object'  " class="col-12 text-center">inv: {{ numeralFormat(amount/(alt.source_amount/1_000_000), '0,0[.]000000')  }} {{ $store.getters.getNetwork === 'xahau' ? 'XRP':'XAU' }}</div>
             </div>
