@@ -15,7 +15,7 @@
             </div>
             <div class="mx-1 mt-3 row">
                 <div class="col-12 text-center"><button>pay</button></div>
-                <div v-if="alt.source_amount.currency === 'XAH' && currencyHexToUTF8(deliver.split(':')[0]).includes('USD')" class="col-12 mt-3 text-center">rate: {{ 1/alt.source_amount.value }}</div>
+                <div v-if="alt.source_amount.currency === 'XAH' && currencyHexToUTF8(deliver.split(':')[0]).includes('USD')" class="col-12 mt-3 text-center">rate: {{ numeralFormat(amount/alt.source_amount.value, '0,0[.]00000') }} USD</div>
             </div>
         </div>
     </div>
@@ -31,7 +31,9 @@ export default {
     data() {
         return {
             client: undefined,
-            loaded: false
+            loaded: false,
+            last_id: undefined,
+            await: false
         }
     },
     mounted() {
@@ -49,26 +51,33 @@ export default {
     watch: {
         deliver(value) {
             console.log('deliver changed')
-            if (this.client !== undefined) {
-                this.client.close()
-                this.client = undefined
-                this.$store.dispatch('updatePath', { key: 'swap-' + this.deliver + '-' + this.amount, path: {}})
-            }
-            this.pathing()
-            this.loaded = true
+            this.awaitChange()
         },
         amount(value) {
             console.log('Amount changed')
-            if (this.client !== undefined) {
-                this.client.close()
-                this.client = undefined
-                this.$store.dispatch('updatePath', { key: 'swap-' + this.deliver + '-' + this.amount, path: {}})
-            }
-            this.pathing()
-            this.loaded = true
+            this.awaitChange()
         }
     },
     methods: {
+        async awaitChange() {
+            if (this.await) { return }
+            this.await = true
+            await this.pause(1200)
+            console.log('resume post pause')
+            if (this.last_id !== undefined) {
+                await this.client.send({
+                    'id': this.last_id,
+                    'command': 'path_find',
+                    'subcommand': 'close'
+                })
+                this.last_id = undefined
+                this.$store.dispatch('updatePath', { key: 'swap-' + this.deliver + '-' + this.amount, path: {}})
+            }
+            
+            this.loaded = true
+            this.pathing()
+            this.await = false
+        },
         async pathing() {
             if (this.deliver === undefined) { return }
             if (this.amount === undefined) { return }
@@ -82,6 +91,7 @@ export default {
             this.client = new XrplClient(this.$store.getters.getClientServers)
 
             const self = this
+            this.last_id = 'swap-' + this.deliver + '-' + this.amount
             const cmd = {
                 id: 'swap-' + this.deliver + '-' + this.amount,
                 command: 'path_find',
