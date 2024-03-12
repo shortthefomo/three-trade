@@ -158,6 +158,15 @@ export default {
             const books = [{
                 type: 'DEX',
                 network: 'mainnet',
+                name: 'Bitstamp',
+                market: 'XRPUSD',
+                base: 'XRP',
+                quote: 'USD',
+                base_issuer: undefined,
+                quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
                 name: 'Gatehub',
                 market: 'XRPUSD',
                 base: 'XRP',
@@ -230,12 +239,39 @@ export default {
             }, {
                 type: 'DEX',
                 network: 'mainnet',
+                name: 'Bitstamp',
+                market: 'XRPEUR',
+                base: 'XRP',
+                quote: 'EUR',
+                base_issuer: undefined,
+                quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'Bitstamp',
+                market: 'XRPBTC',
+                base: 'XRP',
+                quote: 'BTC',
+                base_issuer: undefined,
+                quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
                 name: 'Gatehub',
                 market: 'XRPBTC',
                 base: 'XRP',
                 quote: 'BTC',
                 base_issuer: undefined,
                 quote_issuer: 'rchGBxcD1A1C2tdxF6papQYZ8kjRKMYcL'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'Bitstamp-Gatehub',
+                market: 'USDUSD',
+                base: 'USD',
+                quote: 'USD',
+                base_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
+                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
             }, {
                 type: 'DEX',
                 network: 'mainnet',
@@ -248,12 +284,30 @@ export default {
             }, {
                 type: 'DEX',
                 network: 'mainnet',
+                name: 'Bitstamp-Gatehub',
+                market: 'USDEUR',
+                base: 'USD',
+                quote: 'EUR',
+                base_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
+                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
                 name: 'CSC-Gatehub',
                 market: 'CSCUSD',
                 base: 'CSC',
                 quote: 'USD',
                 base_issuer: 'rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr',
                 quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'CSC-Bitstamp',
+                market: 'CSCUSD',
+                base: 'CSC',
+                quote: 'USD',
+                base_issuer: 'rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr',
+                quote_issuer: 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B'
             }, {
                 type: 'DEX',
                 network: 'mainnet',
