@@ -52,8 +52,8 @@
         <!-- <h6><span>asks: {{exchange.book.asks.length}}</span></h6>
         <h6><span>bids: {{exchange.book.bids.length}}</span></h6> -->
 
-        <button v-if="($store.getters.getNetwork === 'mainnet' && exchange.quote !== 'XRP') || ($store.getters.getNetwork === 'xahau' && exchange.quote !== 'XAH')" v-on:click="showPath" type="button" class="btn btn-purple me-1 mt-3 fs-8">{{ pathing ? 'hide':'show' }} paths</button>
-        <Path :exchange_key="exchange_key" :exchange="exchange" :loaded="isLoading" :active="pathing"/>
+        <!-- button v-if="($store.getters.getNetwork === 'mainnet' && exchange.quote !== 'XRP') || ($store.getters.getNetwork === 'xahau' && exchange.quote !== 'XAH')" v-on:click="showPath" type="button" class="btn btn-purple me-1 mt-3 fs-8">{{ pathing ? 'hide':'show' }} paths</button>
+        <Path :exchange_key="exchange_key" :exchange="exchange" :loaded="isLoading" :active="pathing"/ -->
     </div>
     
         
