@@ -11,7 +11,7 @@
                         <th v-if="addresses">taker</th>
                         <th v-if="addresses">maker</th>
                         <th v-if="quality">quality</th>
-                        <th v-if="addresses">pathing</th>
+                        <th v-if="addresses">payment</th>
                         <th>time</th>
                     </tr>
                 </thead>
