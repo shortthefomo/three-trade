@@ -682,7 +682,7 @@ export default {
 
                 const ledger_result = await this.client.send(request)
                 if ('error' in ledger_result) { return }
-                
+                console.log(ledger_result)
                 if ('ledger' in ledger_result && 'transactions' in ledger_result.ledger) {
                     for (let i = 0; i < ledger_result.ledger.transactions.length; i++) {
                         const transaction = ledger_result.ledger.transactions[i]
