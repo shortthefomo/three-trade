@@ -20,7 +20,8 @@
                 <div class="col text-start">{{format(row['amount'])}}</div>
                 <div class="col text-start" v-if="quality && (row['quality'] < 1)">{{format(row['quality'])}}</div> 
                 <div class="col text-start" v-else-if="quality">{{format(1/row['quality'])}}</div> 
-                <div class="col address" v-if="addresses"><small><a :href="`https://explorer.panicbot.xyz/${row['address']}/offers?network=mainnet`" target="_blank">{{row['address']}}</a></small></div>
+                <div class="col address" v-if="addresses && $store.getters.getNetwork === 'mainnet'"><small><a :href="`https://xrpscan.com/account/${row['address']}`" target="_blank">{{row['address']}}</a></small></div>
+                <div class="col address" v-if="addresses && $store.getters.getNetwork === 'xahau'"><small><a :href="`https://xahscan.com/account/${row['address']}`" target="_blank">{{row['address']}}</a></small></div>
             </div>
         </div>
         <h4 class="my-1 mx-1 fs-6 ms-4">{{format( midPrice())}} {{ currencyHexToUTF8(exchange.base) }}/{{ currencyHexToUTF8(exchange.quote) }}</h4>
@@ -32,7 +33,8 @@
                 <div class="col text-start">{{format(row['amount'])}}</div>
                 <div class="col text-start" v-if="quality && (row['quality'] < 1)">{{format(row['quality'])}}</div> 
                 <div class="col text-start" v-else-if="quality">{{format(1/row['quality'])}}</div> 
-                <div class="col address" v-if="addresses"><small><a :href="`https://explorer.panicbot.xyz/${row['address']}/offers?network=mainnet`" target="_blank">{{row['address']}}</a></small></div>
+                <div class="col address" v-if="addresses  && $store.getters.getNetwork === 'mainnet'"><small><a :href="`https://xrpscan.com/account/${row['address']}`" target="_blank">{{row['address']}}</a></small></div>
+                <div class="col address" v-if="addresses  && $store.getters.getNetwork === 'xahau'"><small><a :href="`https://xahscan.com/account/${row['address']}`" target="_blank">{{row['address']}}</a></small></div>
             </div>
         </div>
     </div>
