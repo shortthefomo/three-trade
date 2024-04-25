@@ -548,6 +548,10 @@ export default {
                 ])
 
                 // console.log('book_result', book_result)
+                if (book.quote_issuer == 'rXPMof2PnL56qkzP1BjJFWmFCBitYNjV7') {
+                    console.log('data', book_result)
+                }
+                
 
                 if ('error' in book_result) { return }
                 const book_offers = {
@@ -556,7 +560,8 @@ export default {
                 }
                 const data = this.mutateData(book_offers, (book.base_issuer !== undefined))
                 
-                // console.log('data', data)
+                
+                
                 
                 this.$store.dispatch('updateBook', {
                     key: book.base + book.base_issuer + book.quote + book.quote_issuer + '-' + book.network,
