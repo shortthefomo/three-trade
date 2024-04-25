@@ -326,6 +326,15 @@ export default {
                 quote: 'CSC',
                 base_issuer: undefined,
                 quote_issuer: 'rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'XPM',
+                market: 'XRPXPM',
+                base: 'XRP',
+                quote: 'XPM',
+                base_issuer: undefined,
+                quote_issuer: 'rXPMof2PnL56qkzP1BjJFWmFCBitYNjV7'
             }]
             
             this.$store.dispatch('setAccount', this.address)
