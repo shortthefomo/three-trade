@@ -80,7 +80,7 @@ export default {
     },
     data() {
         return {
-            address: 'rThREeXrp54XTQueDowPV1RxmkEAGUmg8',
+            address: 'rrrrrrrrrrrrrrrrrrrrBZbvji',
             addresses: false,
             quality: false,
             options: [
@@ -546,12 +546,6 @@ export default {
                     this.client.send(asks_books),
                     this.client.send(bids_books),
                 ])
-
-                // console.log('book_result', book_result)
-                if (book.quote_issuer == 'rXPMof2PnL56qkzP1BjJFWmFCBitYNjV7') {
-                    console.log('data', book_result)
-                }
-                
 
                 if ('error' in book_result) { return }
                 const book_offers = {
