@@ -525,7 +525,8 @@ export default {
                     'command': 'book_offers',
                     'taker': this.$store.getters.getAccount,
                     'taker_gets': {'currency': book.quote, 'issuer': book.quote_issuer},
-                    'taker_pays': {'currency': book.base }
+                    'taker_pays': {'currency': book.base },
+                    'limit': 2500
                 }
                 if (book.base_issuer !== undefined) {
                     asks_books.taker_pays.issuer = book.base_issuer
@@ -535,24 +536,30 @@ export default {
                     'command': 'book_offers',
                     'taker': this.$store.getters.getAccount,
                     'taker_gets': {'currency': book.base},
-                    'taker_pays': {'currency': book.quote, 'issuer': book.quote_issuer }
+                    'taker_pays': {'currency': book.quote, 'issuer': book.quote_issuer },
+                    'limit': 2500
                 }    
                 if (book.base_issuer !== undefined) {
                     bids_books.taker_gets.issuer = book.base_issuer
                 }
 
+                
                 // console.log('bids_books', bids_books)
                 const book_result = await Promise.all([
                     this.client.send(asks_books),
                     this.client.send(bids_books),
                 ])
 
+                if (book.quote_issuer === 'rXPMof2PnL56qkzP1BjJFWmFCBitYNjV7') {
+                    console.log(book_result[1].offers)
+                }
+
                 if ('error' in book_result) { return }
                 const book_offers = {
                     'asks': book_result[1].offers,
                     'bids': book_result[0].offers
                 }
-                const data = this.mutateData(book_offers, (book.base_issuer !== undefined))
+                const data = this.mutateData(book_offers, (book.base_issuer !== undefined), book.quote_issuer)
                 
                 
                 
@@ -575,18 +582,19 @@ export default {
             const unix_time = Date.now() 
             return Math.floor((unix_time) / 1000) - 946684800
         },
-        mutateData(data, xrp_base) {
+        mutateData(data, xrp_base, issuer) {
             const results = {
                 bids: {},
                 asks: {}
             }
             if (data.asks === undefined) { data.asks = [] }
             if (data.bids === undefined) { data.bids = [] }
-
+            let sum1 = 0
             for (let index = 0; index < data.bids.length; index++) {
                 const offer = data.bids[index]
                 let TakerPays = offer.TakerPays.value || offer.TakerPays / 1_000_000
                 let TakerGets = offer.TakerGets.value || offer.TakerGets / 1_000_000
+                
                 let taker_pays_funded 
                 if (offer.taker_pays_funded !== undefined) {
                     taker_pays_funded = offer.taker_pays_funded.value || offer.taker_pays_funded / 1_000_000
@@ -596,6 +604,7 @@ export default {
                 if (taker_pays_funded === '0') {
                     continue
                 }
+                sum1 += TakerGets * 1
 
                 // remove expired orders from the book
                 if ('Expiration' in offer && offer.Expiration < this.ledgerEpoch()) { continue }
@@ -620,10 +629,12 @@ export default {
                 }
             }
 
+            let sum2 = 0
             for (let index = 0; index < data.asks.length; index++) {
                 const offer = data.asks[index]
                 let TakerPays = offer.TakerPays.value || decimal.div(offer.TakerPays, 1_000_000)
                 let TakerGets = offer.TakerGets.value || decimal.div(offer.TakerGets, 1_000_000)
+                
                 let taker_gets_funded 
                 if (offer.taker_gets_funded !== undefined) {
                     taker_gets_funded = offer.taker_gets_funded.value || decimal.div(offer.taker_gets_funded, 1_000_000)
@@ -634,7 +645,8 @@ export default {
                 if (taker_gets_funded === '0') {
                     continue
                 }
-                
+                sum2 += TakerGets * 1
+
                 // remove expired orders from the book
                 if ('Expiration' in offer && offer.Expiration < this.ledgerEpoch()) { continue }
                 // exclude the active account from the book
@@ -657,6 +669,11 @@ export default {
                     quality: 1/offer.quality
                 }
             }
+            if (issuer === 'rXPMof2PnL56qkzP1BjJFWmFCBitYNjV7') {
+                console.log('SUM1', sum1)
+                console.log('SUM2', sum2)
+            }
+            
             return results
         },
         fromDrops(value, xrp_base) {
