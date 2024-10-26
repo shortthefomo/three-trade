@@ -324,8 +324,8 @@ export default {
                 market: 'XRPEVR',
                 base: 'XRP',
                 quote: 'EVR',
-                base_issuer: 'ra9g3LAJm9xJu8Awe7oWzR6VXFB1mpFtSe',
-                quote_issuer: undefined
+                base_issuer: undefined,
+                quote_issuer: 'ra9g3LAJm9xJu8Awe7oWzR6VXFB1mpFtSe'
             }, {
                 type: 'DEX',
                 network: 'mainnet',
@@ -333,8 +333,8 @@ export default {
                 market: 'XRPXAH',
                 base: 'EVR',
                 quote: 'XRP',
-                base_issuer: undefined,
-                quote_issuer: 'ra9g3LAJm9xJu8Awe7oWzR6VXFB1mpFtSe'
+                base_issuer: 'ra9g3LAJm9xJu8Awe7oWzR6VXFB1mpFtSe',
+                quote_issuer: undefined
             }, {
                 type: 'DEX',
                 network: 'mainnet',
