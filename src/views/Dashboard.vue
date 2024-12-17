@@ -203,7 +203,7 @@ export default {
             }, {
                 type: 'DEX',
                 network: 'mainnet',
-                name: 'Gatehub',
+                name: 'Ripple',
                 market: 'XAHRLUSD',
                 base: 'XAH',
                 quote: '524C555344000000000000000000000000000000',
