@@ -209,7 +209,7 @@ export default {
                 quote: '524C555344000000000000000000000000000000',
                 base_issuer: 'rswh1fvyLqHizBS2awu1vs6QcmwTBd9qiv',
                 quote_issuer: 'rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De'
-            },{
+            }, {
                 type: 'DEX',
                 network: 'mainnet',
                 name: 'Gatehub',
@@ -335,6 +335,15 @@ export default {
                 quote: 'XRP',
                 base_issuer: 'rCSCManTZ8ME9EoLrSHHYKW8PPwWMgkwr',
                 quote_issuer: undefined
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
+                name: 'Ripple',
+                market: 'EVRRLUSD',
+                base: 'EVR',
+                quote: '524C555344000000000000000000000000000000',
+                base_issuer: 'ra9g3LAJm9xJu8Awe7oWzR6VXFB1mpFtSe',
+                quote_issuer: 'rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De'
             }, {
                 type: 'DEX',
                 network: 'mainnet',
