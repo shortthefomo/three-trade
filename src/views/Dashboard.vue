@@ -158,6 +158,15 @@ export default {
             const books = [{
                 type: 'DEX',
                 network: 'mainnet',
+                name: 'Ripple',
+                market: 'XRPRLUSD',
+                base: 'XRP',
+                quote: 'RLUSD',
+                base_issuer: undefined,
+                quote_issuer: 'rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De'
+            },{
+                type: 'DEX',
+                network: 'mainnet',
                 name: 'Bitstamp',
                 market: 'XRPUSD',
                 base: 'XRP',
