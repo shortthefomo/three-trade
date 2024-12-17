@@ -161,7 +161,7 @@ export default {
                 name: 'Ripple',
                 market: 'XRPRLUSD',
                 base: 'XRP',
-                quote: 'RLUSD',
+                quote: '524C555344000000000000000000000000000000',
                 base_issuer: undefined,
                 quote_issuer: 'rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De'
             },{
