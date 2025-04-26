@@ -483,6 +483,15 @@ export default {
                 quote: 'EUR',
                 base_issuer: undefined,
                 quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
+            }, {
+                type: 'DEX',
+                network: 'xahau',
+                name: 'Gatehub',
+                market: 'ETBEUR',
+                base: 'ETB',
+                quote: 'EUR',
+                base_issuer: 'rphyguxqDYeQs1mU2x9ydpZem2AvnwQvcP',
+                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
             }]
 
 
