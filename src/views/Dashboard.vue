@@ -167,6 +167,15 @@ export default {
             },{
                 type: 'DEX',
                 network: 'mainnet',
+                name: 'Circle',
+                market: 'XRPUSDC',
+                base: 'XRP',
+                quote: '5553444300000000000000000000000000000000',
+                base_issuer: undefined,
+                quote_issuer: 'rGm7WCVp9gb4jZHWTEtGUr4dd74z2XuWhE'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
                 name: 'Bitstamp',
                 market: 'XRPUSD',
                 base: 'XRP',
@@ -212,6 +221,15 @@ export default {
             }, {
                 type: 'DEX',
                 network: 'mainnet',
+                name: 'Circle',
+                market: 'XAHUSDC',
+                base: 'XAH',
+                quote: '5553444300000000000000000000000000000000',
+                base_issuer: 'rswh1fvyLqHizBS2awu1vs6QcmwTBd9qiv',
+                quote_issuer: 'rGm7WCVp9gb4jZHWTEtGUr4dd74z2XuWhE'
+            }, {
+                type: 'DEX',
+                network: 'mainnet',
                 name: 'Gatehub',
                 market: 'XRPXAH',
                 base: 'XRP',
@@ -227,24 +245,6 @@ export default {
                 quote: 'XRP',
                 base_issuer: 'rswh1fvyLqHizBS2awu1vs6QcmwTBd9qiv',
                 quote_issuer: undefined
-            }, {
-                type: 'DEX',
-                network: 'mainnet',
-                name: 'Gatehub',
-                market: 'XAHUSD',
-                base: 'XAH',
-                quote: 'USD',
-                base_issuer: 'rswh1fvyLqHizBS2awu1vs6QcmwTBd9qiv',
-                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
-            }, {
-                type: 'DEX',
-                network: 'mainnet',
-                name: 'Gatehub',
-                market: 'XAHEUR',
-                base: 'XAH',
-                quote: 'EUR',
-                base_issuer: 'rswh1fvyLqHizBS2awu1vs6QcmwTBd9qiv',
-                quote_issuer: 'rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq'
             }, {
                 type: 'DEX',
                 network: 'mainnet',
@@ -344,6 +344,15 @@ export default {
                 quote: '524C555344000000000000000000000000000000',
                 base_issuer: 'ra9g3LAJm9xJu8Awe7oWzR6VXFB1mpFtSe',
                 quote_issuer: 'rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De'
+            // }, {
+            //     type: 'DEX',
+            //     network: 'mainnet',
+            //     name: 'Circle',
+            //     market: 'EVRUSDC',
+            //     base: 'EVR',
+            //     quote: '5553444300000000000000000000000000000000',
+            //     base_issuer: 'ra9g3LAJm9xJu8Awe7oWzR6VXFB1mpFtSe',
+            //     quote_issuer: 'rGm7WCVp9gb4jZHWTEtGUr4dd74z2XuWhE'
             }, {
                 type: 'DEX',
                 network: 'mainnet',
