@@ -156,6 +156,15 @@ export default {
             })
             
             const books = [{
+            type: 'DEX',
+                network: 'mainnet',
+                name: 'Stables',
+                market: 'USDC/RLUSD',
+                base: '524C555344000000000000000000000000000000',
+                quote: '5553444300000000000000000000000000000000',
+                base_issuer: 'rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De',
+                quote_issuer: 'rGm7WCVp9gb4jZHWTEtGUr4dd74z2XuWhE'
+            },{
                 type: 'DEX',
                 network: 'mainnet',
                 name: 'Ripple',
